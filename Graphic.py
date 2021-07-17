@@ -3,6 +3,16 @@ import os
 from PyQt5 import uic
 from logic import RoboflowLogic
 
+from PIL import ImageTk 
+from PIL import  Image
+import tkinter.filedialog
+from tkinter import *
+from tkinter import filedialog 
+from zipfile import ZipFile
+import cv2
+import glob
+
+
 
 ProjectsWindow = uic.loadUiType(os.path.join(os.getcwd(), "ProjectsWindow.ui"))[0]
 MainPage = uic.loadUiType(os.path.join(os.getcwd(), "MainPage.ui"))[0]
@@ -23,6 +33,7 @@ class MainGUI(QMainWindow, ProjectsWindow):
         self.close()
 
 
+
 class newProject(QMainWindow, MainPage):
     def __init__(self):
         super(newProject, self).__init__()
@@ -31,5 +42,26 @@ class newProject(QMainWindow, MainPage):
         self.myLogicObject = RoboflowLogic("chess", "piece")
 
     def UPloadData(self):
-        pass
-        
+       
+        Tk().withdraw()                              #to hide the window behind the selector screen
+        slash = tkinter.filedialog.askdirectory()    #swlwct file dialog
+        os.path.normpath(slash)                      # / --> //
+        path=glob.glob(slash+"/*")                    #  read multiple images address    
+        for i in path:
+            img=myImage(i)
+            self.data.append(img)
+         
+
+
+class myImage:
+   
+    def __init__(self,path):
+        self.detection_obj=[]
+        self.path=path
+        img = cv2.imread(self.path)
+
+
+    
+     
+
+         
