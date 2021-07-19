@@ -3,15 +3,11 @@ import os
 from PyQt5 import uic, QtWidgets, QtCore,QtGui
 from logic import RoboflowLogic, myImage, DetectionObject
 from PyQt5.QtGui import QPixmap
-
-from PIL import ImageTk 
-from PIL import  Image
 import tkinter.filedialog
 from tkinter import *
-from tkinter import filedialog 
-from zipfile import ZipFile
-import cv2
 import glob
+import cv2
+
 
 
 
@@ -41,35 +37,83 @@ class MainPageWindow(QMainWindow, MainPage):
         self.setupUi(self)
         self.myLogicObject = RoboflowLogic("chess", "piece")
         self.UploadDataBTN.clicked.connect(self.UPloadData)
-        
+        self.start_slider.setRange(0,90)
+        self.end_slider.setRange(90,100)
+        self.start_slider.setValue(75)
+        self.end_slider.setValue(90)
+        self.start_slider.valueChanged.connect(self.slider_valuechange)
+        self.end_slider.valueChanged.connect(self.slider_valuechange)
+        self.Train_Label.setText("75")
+        self.Test_Label.setText("15")
+        self.Validation_Label.setText("10")
+        self.DoSplit.clicked.connect(self.Test_Train_Spliter)
+        self.Test_Train_frame.setHidden(True)
+        self.Add_Label_frame.setHidden(True)
+        self.TrainTestBTN.clicked.connect(lambda:self.Test_Train_frame.setHidden(False))
+        self.addLabelBTN.clicked.connect(self.show_image_labeling)
         # if len(self.myLogicObject.Data):
         #     for image in self.myLogicObject.Data:
         #         print(image)
 
-        img = myImage(os.getcwd()+r'\Pic.jpg')
-        self.myLogicObject.Data.append(img)
+        # img = myImage(os.getcwd()+r'\Pic.jpg')
+        # self.myLogicObject.Data.append(img)
 
 
-        imageBTN = QPushButton(self.frame_6)
-        imageBTN.clicked.connect(lambda: self.Labeling(img))
-        imageBTN.setIcon(QtGui.QIcon(self.myLogicObject.Data[0].path))
-        imageBTN.setIconSize(QtCore.QSize(50,50))
-        self.image_view_window = None
+        # imageBTN = QPushButton(self.frame_6)
+        # imageBTN.clicked.connect(lambda: self.Labeling(img))
+        # imageBTN.setIcon(QtGui.QIcon(self.myLogicObject.Data[0].path))
+        # imageBTN.setIconSize(QtCore.QSize(50,50))
+        # self.image_view_window = None
+
+    def show_image_labeling(self):
+        self.Add_Label_frame.setHidden(False)
+        for img in self.myLogicObject.Data:
+            label = QLabel(self.Add_Label_frame)
+            label.resize(50,50)
+            pix = QPixmap(img.path)
+            pix = pix.scaled(label.size())
+            label.setPixmap(pix)
+            self.Images_gridLayout.addWidget(label)
+            label.mousePressEvent = lambda event, img=img: self.Labeling(event, img)
+
+    def Test_Train_Spliter(self):
+        training_pr = int(self.Train_Label.text())/100
+        test_pr = int(self.Test_Label.text())/100
+        validation_pr = int(self.Validation_Label.text())/100
+        self.myLogicObject.Test_Train_data(training_pr,validation_pr,test_pr)
+        self.Trd.setText(f"{training_pr*100} %")
+        self.Trt.setText(str(len(self.myLogicObject.training)))
+        self.Ted.setText(f"{test_pr*100} %")
+        self.Tet.setText(str(len(self.myLogicObject.test)))
+        self.Vd.setText(f"{validation_pr*100} %")
+        self.Vt.setText(str(len(self.myLogicObject.validation)))
+
+
+    def slider_valuechange(self):
+        size1 = self.start_slider.value()
+        size2 = self.end_slider.value()
+        self.Train_Label.setText(str(size1))
+        self.Test_Label.setText(str(size2 - size1))
+        self.Validation_Label.setText(str(100-size2))
+
+
 
 
     def UPloadData(self):
-        Tk().withdraw()                              #to hide the window behind the selector screen
-        slash = tkinter.filedialog.askdirectory()    #swlwct file dialog
-        os.path.normpath(slash)                      # / --> //
-        path=glob.glob(slash+"/*")                    #  read multiple images address    
+        Tk().withdraw()                              
+        slash = tkinter.filedialog.askdirectory()    
+        os.path.normpath(slash)                      
+        path=glob.glob(slash+"/*")                    
         for i in path:
             img=myImage(i)
-            self.data.append(img)
+            self.myLogicObject.Data.append(img)
 
-    def Labeling(self, img):
+        print(self.myLogicObject.Data)
+
+
+    def Labeling(self,event ,img):
         self.image_view_window = PageLabelingWindow(img)
         self.image_view_window.show()
-
 
 
 class PageLabelingWindow(QMainWindow, imageView):

@@ -1,10 +1,12 @@
 import random
+import cv2
+
 class RoboflowLogic:
     def __init__(self, projectName, detectionObject):
         self.projectName = projectName
         self.detectionObject = detectionObject
-        # self.Data = [1,2,3,4,5,6,8,7,5,7,8,44,5,1,48,5,8,1,4,1,78,1,4,15,5,5,2,5]
         self.Data = []
+        # self.Data = [4,9,5,8,5,8,5,8,5,6,9,1,2,8,5,6,9,8,7,4,1,5,9,8,7,4,5,2,3,21,6,5,4,9,8,5,1,9]
         self.training = []
         self.validation = []
         self.test = []
@@ -32,6 +34,7 @@ class myImage:
     def __init__(self, path):
         self.path = path
         self.detection_obj = []
+        img = cv2.imread(self.path)
 
     def add_detection_obj(self, detObj):
         self.detection_obj.append(detObj)
@@ -49,4 +52,3 @@ class DetectionObject:
         return f"{self.label} => {self.position}"
 
 
-        
