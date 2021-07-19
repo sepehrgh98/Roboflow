@@ -4,6 +4,14 @@ from PyQt5 import uic, QtWidgets, QtCore,QtGui
 from logic import RoboflowLogic, myImage, DetectionObject
 from PyQt5.QtGui import QPixmap
 
+from PIL import ImageTk 
+from PIL import  Image
+import tkinter.filedialog
+from tkinter import *
+from tkinter import filedialog 
+from zipfile import ZipFile
+import cv2
+import glob
 
 
 
@@ -50,7 +58,13 @@ class MainPageWindow(QMainWindow, MainPage):
 
 
     def UPloadData(self):
-        pass
+        Tk().withdraw()                              #to hide the window behind the selector screen
+        slash = tkinter.filedialog.askdirectory()    #swlwct file dialog
+        os.path.normpath(slash)                      # / --> //
+        path=glob.glob(slash+"/*")                    #  read multiple images address    
+        for i in path:
+            img=myImage(i)
+            self.data.append(img)
 
     def Labeling(self, img):
         self.image_view_window = PageLabelingWindow(img)
