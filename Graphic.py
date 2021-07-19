@@ -105,9 +105,7 @@ class PageLabelingWindow(QMainWindow, imageView):
 
 
     def make_label_signal(self, rect):
-        self.lineEntry.setEnabled(True)
-        # self.setLabelBTN.setEnabled(False)
-        
+        self.lineEntry.setEnabled(True)        
         if rect.LogicalObj != None:
             self.lineEntry.setText(rect.LogicalObj.label)
             self.DeleteBTN.setEnabled(True)
