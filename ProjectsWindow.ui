@@ -24,7 +24,7 @@
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">background-color: rgb(247, 247, 232);</string>
+     <string notr="true">background-color: rgb(24, 25, 29);</string>
     </property>
     <property name="frameShape">
      <enum>QFrame::StyledPanel</enum>
@@ -42,38 +42,8 @@
       </rect>
      </property>
      <property name="styleSheet">
-      <string notr="true">background-color: rgb(199, 207, 183);</string>
+      <string notr="true">background-color: rgb(40, 46, 51);</string>
      </property>
-     <widget class="QWidget" name="widget_3" native="true">
-      <property name="geometry">
-       <rect>
-        <x>100</x>
-        <y>10</y>
-        <width>141</width>
-        <height>41</height>
-       </rect>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">background-color: rgb(157, 173, 127);
-border: 3px groove rgb(157, 173, 127);
-border-radius:20px; </string>
-      </property>
-     </widget>
-     <widget class="QWidget" name="widget_4" native="true">
-      <property name="geometry">
-       <rect>
-        <x>30</x>
-        <y>10</y>
-        <width>41</width>
-        <height>41</height>
-       </rect>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">background-color: rgb(157, 173, 127);
-border-radius:20px; 
-border: 3px groove rgb(157, 173, 127);</string>
-      </property>
-     </widget>
      <widget class="QTextEdit" name="textEdit">
       <property name="geometry">
        <rect>
@@ -84,7 +54,8 @@ border: 3px groove rgb(157, 173, 127);</string>
        </rect>
       </property>
       <property name="styleSheet">
-       <string notr="true">background-color: rgb(243, 244, 237);
+       <string notr="true">background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(61, 68, 75, 255), stop:1 rgba(76, 85, 94, 255));
+
 
 border-radius:20px; </string>
       </property>
@@ -99,7 +70,8 @@ border-radius:20px; </string>
        </rect>
       </property>
       <property name="styleSheet">
-       <string notr="true">background-color: rgb(243, 244, 237);
+       <string notr="true">background-color: rgb(76, 85, 94, 255);
+
 border-radius:20px; </string>
       </property>
       <property name="text">
@@ -107,7 +79,43 @@ border-radius:20px; </string>
       </property>
       <property name="icon">
        <iconset>
-        <normaloff>D:/folder/term8/AP/HW/finalproj/icon/icons8-search-24.png</normaloff>D:/folder/term8/AP/HW/finalproj/icon/icons8-search-24.png</iconset>
+        <normaloff>../../finalproj/icon/icons8-search-24.png</normaloff>../../finalproj/icon/icons8-search-24.png</iconset>
+      </property>
+     </widget>
+     <widget class="QWidget" name="widget_3" native="true">
+      <property name="geometry">
+       <rect>
+        <x>100</x>
+        <y>10</y>
+        <width>141</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(61, 68, 75, 255), stop:1 rgba(76, 85, 94, 255));
+font: 75 12pt &quot;Nirmala UI&quot;;
+color:  rgb(24, 28, 39);
+border: 3px groove rgb(61, 68, 75);
+border-radius:20px; 
+border-style:outset;</string>
+      </property>
+     </widget>
+     <widget class="QWidget" name="widget_4" native="true">
+      <property name="geometry">
+       <rect>
+        <x>30</x>
+        <y>10</y>
+        <width>41</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(61, 68, 75, 255), stop:1 rgba(76, 85, 94, 255));
+font: 75 12pt &quot;Nirmala UI&quot;;
+color:  rgb(24, 28, 39);
+border: 3px groove rgb(61, 68, 75);
+border-radius:20px; 
+border-style:outset;</string>
       </property>
      </widget>
     </widget>
@@ -121,9 +129,9 @@ border-radius:20px; </string>
       </rect>
      </property>
      <property name="styleSheet">
-      <string notr="true">background-color: rgb(199, 207, 183);
+      <string notr="true">background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(40, 46, 51, 255), stop:1 rgba(49, 56, 63, 255));
 border-radius:30px; 
-border: 3px groove rgb(199, 207, 183);</string>
+border: 5px groove  rgb(40, 46, 51);</string>
      </property>
      <property name="frameShape">
       <enum>QFrame::StyledPanel</enum>
@@ -132,90 +140,13 @@ border: 3px groove rgb(199, 207, 183);</string>
       <enum>QFrame::Raised</enum>
      </property>
      <layout class="QGridLayout" name="gridLayout">
-      <item row="0" column="2">
-       <widget class="QFrame" name="frame_14">
-        <property name="frameShape">
-         <enum>QFrame::StyledPanel</enum>
-        </property>
-        <property name="frameShadow">
-         <enum>QFrame::Raised</enum>
-        </property>
-        <widget class="QFrame" name="frame_15">
-         <property name="geometry">
-          <rect>
-           <x>10</x>
-           <y>10</y>
-           <width>121</width>
-           <height>111</height>
-          </rect>
-         </property>
-         <property name="styleSheet">
-          <string notr="true">background-color: rgb(85, 113, 116);
-font: 75 12pt &quot;Nirmala UI&quot;;
-color:  rgb(24, 28, 39);
-border: 3px groove rgb(157, 173, 127);
-border-radius:20px; 
-</string>
-         </property>
-         <property name="frameShape">
-          <enum>QFrame::StyledPanel</enum>
-         </property>
-         <property name="frameShadow">
-          <enum>QFrame::Raised</enum>
-         </property>
-        </widget>
-        <widget class="QPushButton" name="pushButton_15">
-         <property name="geometry">
-          <rect>
-           <x>80</x>
-           <y>130</y>
-           <width>51</width>
-           <height>41</height>
-          </rect>
-         </property>
-         <property name="styleSheet">
-          <string notr="true">background-color: rgb(157, 173, 127);
-font: 75 12pt &quot;Nirmala UI&quot;;
-color:  rgb(24, 28, 39);
-border: 3px groove rgb(157, 173, 127);
-border-radius:15px; </string>
-         </property>
-         <property name="text">
-          <string/>
-         </property>
-         <property name="icon">
-          <iconset>
-           <normaloff>D:/folder/term8/AP/HW/finalproj/icon/icons8-trash-24.png</normaloff>D:/folder/term8/AP/HW/finalproj/icon/icons8-trash-24.png</iconset>
-         </property>
-        </widget>
-        <widget class="QPushButton" name="pushButton_19">
-         <property name="geometry">
-          <rect>
-           <x>10</x>
-           <y>130</y>
-           <width>51</width>
-           <height>41</height>
-          </rect>
-         </property>
-         <property name="styleSheet">
-          <string notr="true">background-color: rgb(157, 173, 127);
-font: 75 12pt &quot;Nirmala UI&quot;;
-color:  rgb(24, 28, 39);
-border: 3px groove rgb(157, 173, 127);
-border-radius:15px; </string>
-         </property>
-         <property name="text">
-          <string/>
-         </property>
-         <property name="icon">
-          <iconset>
-           <normaloff>D:/folder/term8/AP/HW/finalproj/icon/icons8-edit-24.png</normaloff>D:/folder/term8/AP/HW/finalproj/icon/icons8-edit-24.png</iconset>
-         </property>
-        </widget>
-       </widget>
-      </item>
       <item row="0" column="0">
        <widget class="QFrame" name="frame_3">
+        <property name="styleSheet">
+         <string notr="true">background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(24, 25, 29, 255), stop:1 rgba(29, 31, 36, 255));
+border-style:inset;
+border: 5px groove  rgb(24, 25, 29);</string>
+        </property>
         <property name="frameShape">
          <enum>QFrame::StyledPanel</enum>
         </property>
@@ -232,11 +163,12 @@ border-radius:15px; </string>
           </rect>
          </property>
          <property name="styleSheet">
-          <string notr="true">background-color: rgb(85, 113, 116);
+          <string notr="true">background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(40, 46, 51, 255), stop:1 rgba(49, 56, 63, 255));
 font: 75 12pt &quot;Nirmala UI&quot;;
-color:  rgb(24, 28, 39);
-border: 3px groove rgb(157, 173, 127);
+color: rgb(112, 119, 129);
+border: 3px groove rgb(40, 46, 51);
 border-radius:20px; 
+border-style:outset;
 
 
 </string>
@@ -255,18 +187,19 @@ border-radius:20px;
           </rect>
          </property>
          <property name="styleSheet">
-          <string notr="true">background-color: rgb(157, 173, 127);
+          <string notr="true">background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(61, 68, 75, 255), stop:1 rgba(76, 85, 94, 255));
 font: 75 12pt &quot;Nirmala UI&quot;;
 color:  rgb(24, 28, 39);
-border: 3px groove rgb(157, 173, 127);
-border-radius:15px; </string>
+border: 3px groove rgb(61, 68, 75);
+border-radius:15px; 
+border-style:outset;</string>
          </property>
          <property name="text">
           <string/>
          </property>
          <property name="icon">
           <iconset>
-           <normaloff>D:/folder/term8/AP/HW/finalproj/icon/icons8-trash-24.png</normaloff>D:/folder/term8/AP/HW/finalproj/icon/icons8-trash-24.png</iconset>
+           <normaloff>../../finalproj/icon/icons8-trash-24.png</normaloff>../../finalproj/icon/icons8-trash-24.png</iconset>
          </property>
         </widget>
         <widget class="QPushButton" name="pushButton_7">
@@ -279,106 +212,30 @@ border-radius:15px; </string>
           </rect>
          </property>
          <property name="styleSheet">
-          <string notr="true">background-color: rgb(157, 173, 127);
+          <string notr="true">background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(61, 68, 75, 255), stop:1 rgba(76, 85, 94, 255));
 font: 75 12pt &quot;Nirmala UI&quot;;
 color:  rgb(24, 28, 39);
-border: 3px groove rgb(157, 173, 127);
-border-radius:15px; </string>
+border: 3px groove rgb(61, 68, 75);
+border-radius:15px; 
+border-style:outset;</string>
          </property>
          <property name="text">
           <string/>
          </property>
          <property name="icon">
           <iconset>
-           <normaloff>D:/folder/term8/AP/HW/finalproj/icon/icons8-edit-24.png</normaloff>D:/folder/term8/AP/HW/finalproj/icon/icons8-edit-24.png</iconset>
-         </property>
-        </widget>
-       </widget>
-      </item>
-      <item row="1" column="2">
-       <widget class="QFrame" name="frame_7">
-        <property name="frameShape">
-         <enum>QFrame::StyledPanel</enum>
-        </property>
-        <property name="frameShadow">
-         <enum>QFrame::Raised</enum>
-        </property>
-        <widget class="QFrame" name="frame_12">
-         <property name="geometry">
-          <rect>
-           <x>10</x>
-           <y>10</y>
-           <width>121</width>
-           <height>111</height>
-          </rect>
-         </property>
-         <property name="styleSheet">
-          <string notr="true">background-color: rgb(85, 113, 116);
-font: 75 12pt &quot;Nirmala UI&quot;;
-color:  rgb(24, 28, 39);
-border: 3px groove rgb(157, 173, 127);
-border-radius:20px; 
-</string>
-         </property>
-         <property name="frameShape">
-          <enum>QFrame::StyledPanel</enum>
-         </property>
-         <property name="frameShadow">
-          <enum>QFrame::Raised</enum>
-         </property>
-        </widget>
-        <widget class="QPushButton" name="pushButton_14">
-         <property name="geometry">
-          <rect>
-           <x>80</x>
-           <y>140</y>
-           <width>51</width>
-           <height>41</height>
-          </rect>
-         </property>
-         <property name="styleSheet">
-          <string notr="true">background-color: rgb(157, 173, 127);
-font: 75 12pt &quot;Nirmala UI&quot;;
-color:  rgb(24, 28, 39);
-border: 3px groove rgb(157, 173, 127);
-border-radius:15px; </string>
-         </property>
-         <property name="text">
-          <string/>
-         </property>
-         <property name="icon">
-          <iconset>
-           <normaloff>D:/folder/term8/AP/HW/finalproj/icon/icons8-trash-24.png</normaloff>D:/folder/term8/AP/HW/finalproj/icon/icons8-trash-24.png</iconset>
-         </property>
-        </widget>
-        <widget class="QPushButton" name="pushButton_17">
-         <property name="geometry">
-          <rect>
-           <x>10</x>
-           <y>140</y>
-           <width>51</width>
-           <height>41</height>
-          </rect>
-         </property>
-         <property name="styleSheet">
-          <string notr="true">background-color: rgb(157, 173, 127);
-font: 75 12pt &quot;Nirmala UI&quot;;
-color:  rgb(24, 28, 39);
-border: 3px groove rgb(157, 173, 127);
-border-radius:15px; </string>
-         </property>
-         <property name="text">
-          <string/>
-         </property>
-         <property name="icon">
-          <iconset>
-           <normaloff>D:/folder/term8/AP/HW/finalproj/icon/icons8-edit-24.png</normaloff>D:/folder/term8/AP/HW/finalproj/icon/icons8-edit-24.png</iconset>
+           <normaloff>../../finalproj/icon/icons8-edit-24.png</normaloff>../../finalproj/icon/icons8-edit-24.png</iconset>
          </property>
         </widget>
        </widget>
       </item>
       <item row="0" column="1">
        <widget class="QFrame" name="frame_4">
+        <property name="styleSheet">
+         <string notr="true">background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(24, 25, 29, 255), stop:1 rgba(29, 31, 36, 255));
+border-style:inset;
+border: 5px groove  rgb(24, 25, 29);</string>
+        </property>
         <property name="frameShape">
          <enum>QFrame::StyledPanel</enum>
         </property>
@@ -395,12 +252,12 @@ border-radius:15px; </string>
           </rect>
          </property>
          <property name="styleSheet">
-          <string notr="true">background-color: rgb(85, 113, 116);
+          <string notr="true">background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(40, 46, 51, 255), stop:1 rgba(49, 56, 63, 255));
 font: 75 12pt &quot;Nirmala UI&quot;;
-color:  rgb(24, 28, 39);
-border: 3px groove rgb(157, 173, 127);
+color: rgb(112, 119, 129);
+border: 3px groove rgb(40, 46, 51);
 border-radius:20px; 
-</string>
+border-style:outset;</string>
          </property>
          <property name="frameShape">
           <enum>QFrame::StyledPanel</enum>
@@ -419,18 +276,19 @@ border-radius:20px;
           </rect>
          </property>
          <property name="styleSheet">
-          <string notr="true">background-color: rgb(157, 173, 127);
+          <string notr="true">background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(61, 68, 75, 255), stop:1 rgba(76, 85, 94, 255));
 font: 75 12pt &quot;Nirmala UI&quot;;
 color:  rgb(24, 28, 39);
-border: 3px groove rgb(157, 173, 127);
-border-radius:15px; </string>
+border: 3px groove rgb(61, 68, 75);
+border-radius:15px; 
+border-style:outset;</string>
          </property>
          <property name="text">
           <string/>
          </property>
          <property name="icon">
           <iconset>
-           <normaloff>D:/folder/term8/AP/HW/finalproj/icon/icons8-trash-24.png</normaloff>D:/folder/term8/AP/HW/finalproj/icon/icons8-trash-24.png</iconset>
+           <normaloff>../../finalproj/icon/icons8-trash-24.png</normaloff>../../finalproj/icon/icons8-trash-24.png</iconset>
          </property>
         </widget>
         <widget class="QPushButton" name="pushButton_20">
@@ -443,24 +301,30 @@ border-radius:15px; </string>
           </rect>
          </property>
          <property name="styleSheet">
-          <string notr="true">background-color: rgb(157, 173, 127);
+          <string notr="true">background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(61, 68, 75, 255), stop:1 rgba(76, 85, 94, 255));
 font: 75 12pt &quot;Nirmala UI&quot;;
 color:  rgb(24, 28, 39);
-border: 3px groove rgb(157, 173, 127);
-border-radius:15px; </string>
+border: 3px groove rgb(61, 68, 75);
+border-radius:15px; 
+border-style:outset;</string>
          </property>
          <property name="text">
           <string/>
          </property>
          <property name="icon">
           <iconset>
-           <normaloff>D:/folder/term8/AP/HW/finalproj/icon/icons8-edit-24.png</normaloff>D:/folder/term8/AP/HW/finalproj/icon/icons8-edit-24.png</iconset>
+           <normaloff>../../finalproj/icon/icons8-edit-24.png</normaloff>../../finalproj/icon/icons8-edit-24.png</iconset>
          </property>
         </widget>
        </widget>
       </item>
-      <item row="1" column="1">
-       <widget class="QFrame" name="frame_8">
+      <item row="1" column="0">
+       <widget class="QFrame" name="frame_6">
+        <property name="styleSheet">
+         <string notr="true">background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(24, 25, 29, 255), stop:1 rgba(29, 31, 36, 255));
+border-style:inset;
+border: 5px groove  rgb(24, 25, 29);</string>
+        </property>
         <property name="frameShape">
          <enum>QFrame::StyledPanel</enum>
         </property>
@@ -477,12 +341,12 @@ border-radius:15px; </string>
           </rect>
          </property>
          <property name="styleSheet">
-          <string notr="true">background-color: rgb(85, 113, 116);
+          <string notr="true">background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(40, 46, 51, 255), stop:1 rgba(49, 56, 63, 255));
 font: 75 12pt &quot;Nirmala UI&quot;;
-color:  rgb(24, 28, 39);
-border: 3px groove rgb(157, 173, 127);
+color: rgb(112, 119, 129);
+border: 3px groove rgb(40, 46, 51);
 border-radius:20px; 
-</string>
+border-style:outset;</string>
          </property>
          <property name="frameShape">
           <enum>QFrame::StyledPanel</enum>
@@ -491,65 +355,72 @@ border-radius:20px;
           <enum>QFrame::Raised</enum>
          </property>
         </widget>
-        <widget class="QPushButton" name="pushButton_9">
+        <widget class="QPushButton" name="pushButton_12">
          <property name="geometry">
           <rect>
            <x>80</x>
-           <y>140</y>
+           <y>130</y>
            <width>51</width>
            <height>41</height>
           </rect>
          </property>
          <property name="styleSheet">
-          <string notr="true">background-color: rgb(157, 173, 127);
+          <string notr="true">background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(61, 68, 75, 255), stop:1 rgba(76, 85, 94, 255));
 font: 75 12pt &quot;Nirmala UI&quot;;
 color:  rgb(24, 28, 39);
-border: 3px groove rgb(157, 173, 127);
-border-radius:15px; </string>
+border: 3px groove rgb(61, 68, 75);
+border-radius:15px; 
+border-style:outset;</string>
          </property>
          <property name="text">
           <string/>
          </property>
          <property name="icon">
           <iconset>
-           <normaloff>D:/folder/term8/AP/HW/finalproj/icon/icons8-trash-24.png</normaloff>D:/folder/term8/AP/HW/finalproj/icon/icons8-trash-24.png</iconset>
+           <normaloff>../../finalproj/icon/icons8-trash-24.png</normaloff>../../finalproj/icon/icons8-trash-24.png</iconset>
          </property>
         </widget>
-        <widget class="QPushButton" name="pushButton_16">
+        <widget class="QPushButton" name="pushButton_22">
          <property name="geometry">
           <rect>
-           <x>20</x>
-           <y>140</y>
+           <x>10</x>
+           <y>130</y>
            <width>51</width>
            <height>41</height>
           </rect>
          </property>
          <property name="styleSheet">
-          <string notr="true">background-color: rgb(157, 173, 127);
+          <string notr="true">background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(61, 68, 75, 255), stop:1 rgba(76, 85, 94, 255));
 font: 75 12pt &quot;Nirmala UI&quot;;
 color:  rgb(24, 28, 39);
-border: 3px groove rgb(157, 173, 127);
-border-radius:15px; </string>
+border: 3px groove rgb(61, 68, 75);
+border-radius:15px; 
+border-style:outset;</string>
          </property>
          <property name="text">
           <string/>
          </property>
          <property name="icon">
           <iconset>
-           <normaloff>D:/folder/term8/AP/HW/finalproj/icon/icons8-edit-24.png</normaloff>D:/folder/term8/AP/HW/finalproj/icon/icons8-edit-24.png</iconset>
+           <normaloff>../../finalproj/icon/icons8-edit-24.png</normaloff>../../finalproj/icon/icons8-edit-24.png</iconset>
          </property>
         </widget>
        </widget>
       </item>
-      <item row="3" column="0">
-       <widget class="QFrame" name="frame_6">
+      <item row="1" column="1">
+       <widget class="QFrame" name="frame_7">
+        <property name="styleSheet">
+         <string notr="true">background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(24, 25, 29, 255), stop:1 rgba(29, 31, 36, 255));
+border-style:inset;
+border: 5px groove  rgb(24, 25, 29);</string>
+        </property>
         <property name="frameShape">
          <enum>QFrame::StyledPanel</enum>
         </property>
         <property name="frameShadow">
          <enum>QFrame::Raised</enum>
         </property>
-        <widget class="QFrame" name="frame_13">
+        <widget class="QFrame" name="frame_12">
          <property name="geometry">
           <rect>
            <x>10</x>
@@ -559,12 +430,12 @@ border-radius:15px; </string>
           </rect>
          </property>
          <property name="styleSheet">
-          <string notr="true">background-color: rgb(85, 113, 116);
+          <string notr="true">background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(40, 46, 51, 255), stop:1 rgba(49, 56, 63, 255));
 font: 75 12pt &quot;Nirmala UI&quot;;
-color:  rgb(24, 28, 39);
-border: 3px groove rgb(157, 173, 127);
+color: rgb(112, 119, 129);
+border: 3px groove rgb(40, 46, 51);
 border-radius:20px; 
-</string>
+border-style:outset;</string>
          </property>
          <property name="frameShape">
           <enum>QFrame::StyledPanel</enum>
@@ -573,58 +444,65 @@ border-radius:20px;
           <enum>QFrame::Raised</enum>
          </property>
         </widget>
-        <widget class="QPushButton" name="pushButton_11">
+        <widget class="QPushButton" name="pushButton_13">
          <property name="geometry">
           <rect>
            <x>80</x>
-           <y>140</y>
+           <y>130</y>
            <width>51</width>
            <height>41</height>
           </rect>
          </property>
          <property name="styleSheet">
-          <string notr="true">background-color: rgb(157, 173, 127);
+          <string notr="true">background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(61, 68, 75, 255), stop:1 rgba(76, 85, 94, 255));
 font: 75 12pt &quot;Nirmala UI&quot;;
 color:  rgb(24, 28, 39);
-border: 3px groove rgb(157, 173, 127);
-border-radius:15px; </string>
+border: 3px groove rgb(61, 68, 75);
+border-radius:15px; 
+border-style:outset;</string>
          </property>
          <property name="text">
           <string/>
          </property>
          <property name="icon">
           <iconset>
-           <normaloff>D:/folder/term8/AP/HW/finalproj/icon/icons8-trash-24.png</normaloff>D:/folder/term8/AP/HW/finalproj/icon/icons8-trash-24.png</iconset>
+           <normaloff>../../finalproj/icon/icons8-trash-24.png</normaloff>../../finalproj/icon/icons8-trash-24.png</iconset>
          </property>
         </widget>
-        <widget class="QPushButton" name="pushButton_8">
+        <widget class="QPushButton" name="pushButton_23">
          <property name="geometry">
           <rect>
            <x>10</x>
-           <y>140</y>
+           <y>130</y>
            <width>51</width>
            <height>41</height>
           </rect>
          </property>
          <property name="styleSheet">
-          <string notr="true">background-color: rgb(157, 173, 127);
+          <string notr="true">background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(61, 68, 75, 255), stop:1 rgba(76, 85, 94, 255));
 font: 75 12pt &quot;Nirmala UI&quot;;
 color:  rgb(24, 28, 39);
-border: 3px groove rgb(157, 173, 127);
-border-radius:15px; </string>
+border: 3px groove rgb(61, 68, 75);
+border-radius:15px; 
+border-style:outset;</string>
          </property>
          <property name="text">
           <string/>
          </property>
          <property name="icon">
           <iconset>
-           <normaloff>D:/folder/term8/AP/HW/finalproj/icon/icons8-edit-24.png</normaloff>D:/folder/term8/AP/HW/finalproj/icon/icons8-edit-24.png</iconset>
+           <normaloff>../../finalproj/icon/icons8-edit-24.png</normaloff>../../finalproj/icon/icons8-edit-24.png</iconset>
          </property>
         </widget>
        </widget>
       </item>
-      <item row="1" column="0">
+      <item row="0" column="2">
        <widget class="QFrame" name="frame_5">
+        <property name="styleSheet">
+         <string notr="true">background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(24, 25, 29, 255), stop:1 rgba(29, 31, 36, 255));
+border-style:inset;
+border: 5px groove  rgb(24, 25, 29);</string>
+        </property>
         <property name="frameShape">
          <enum>QFrame::StyledPanel</enum>
         </property>
@@ -641,12 +519,12 @@ border-radius:15px; </string>
           </rect>
          </property>
          <property name="styleSheet">
-          <string notr="true">background-color: rgb(85, 113, 116);
+          <string notr="true">background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(40, 46, 51, 255), stop:1 rgba(49, 56, 63, 255));
 font: 75 12pt &quot;Nirmala UI&quot;;
-color:  rgb(24, 28, 39);
-border: 3px groove rgb(157, 173, 127);
+color: rgb(112, 119, 129);
+border: 3px groove rgb(40, 46, 51);
 border-radius:20px; 
-</string>
+border-style:outset;</string>
          </property>
          <property name="frameShape">
           <enum>QFrame::StyledPanel</enum>
@@ -655,52 +533,232 @@ border-radius:20px;
           <enum>QFrame::Raised</enum>
          </property>
         </widget>
-        <widget class="QPushButton" name="pushButton_12">
+        <widget class="QPushButton" name="pushButton_11">
          <property name="geometry">
           <rect>
            <x>80</x>
-           <y>140</y>
+           <y>130</y>
            <width>51</width>
            <height>41</height>
           </rect>
          </property>
          <property name="styleSheet">
-          <string notr="true">background-color: rgb(157, 173, 127);
+          <string notr="true">background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(61, 68, 75, 255), stop:1 rgba(76, 85, 94, 255));
 font: 75 12pt &quot;Nirmala UI&quot;;
 color:  rgb(24, 28, 39);
-border: 3px groove rgb(157, 173, 127);
-border-radius:15px; </string>
+border: 3px groove rgb(61, 68, 75);
+border-radius:15px; 
+border-style:outset;</string>
          </property>
          <property name="text">
           <string/>
          </property>
          <property name="icon">
           <iconset>
-           <normaloff>D:/folder/term8/AP/HW/finalproj/icon/icons8-trash-24.png</normaloff>D:/folder/term8/AP/HW/finalproj/icon/icons8-trash-24.png</iconset>
+           <normaloff>../../finalproj/icon/icons8-trash-24.png</normaloff>../../finalproj/icon/icons8-trash-24.png</iconset>
          </property>
         </widget>
-        <widget class="QPushButton" name="pushButton_13">
+        <widget class="QPushButton" name="pushButton_21">
          <property name="geometry">
           <rect>
            <x>10</x>
-           <y>140</y>
+           <y>130</y>
            <width>51</width>
            <height>41</height>
           </rect>
          </property>
          <property name="styleSheet">
-          <string notr="true">background-color: rgb(157, 173, 127);
+          <string notr="true">background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(61, 68, 75, 255), stop:1 rgba(76, 85, 94, 255));
 font: 75 12pt &quot;Nirmala UI&quot;;
 color:  rgb(24, 28, 39);
-border: 3px groove rgb(157, 173, 127);
-border-radius:15px; </string>
+border: 3px groove rgb(61, 68, 75);
+border-radius:15px; 
+border-style:outset;</string>
          </property>
          <property name="text">
           <string/>
          </property>
          <property name="icon">
           <iconset>
-           <normaloff>D:/folder/term8/AP/HW/finalproj/icon/icons8-edit-24.png</normaloff>D:/folder/term8/AP/HW/finalproj/icon/icons8-edit-24.png</iconset>
+           <normaloff>../../finalproj/icon/icons8-edit-24.png</normaloff>../../finalproj/icon/icons8-edit-24.png</iconset>
+         </property>
+        </widget>
+       </widget>
+      </item>
+      <item row="1" column="2">
+       <widget class="QFrame" name="frame_8">
+        <property name="styleSheet">
+         <string notr="true">background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(24, 25, 29, 255), stop:1 rgba(29, 31, 36, 255));
+border-style:inset;
+border: 5px groove  rgb(24, 25, 29);</string>
+        </property>
+        <property name="frameShape">
+         <enum>QFrame::StyledPanel</enum>
+        </property>
+        <property name="frameShadow">
+         <enum>QFrame::Raised</enum>
+        </property>
+        <widget class="QFrame" name="frame_13">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>10</y>
+           <width>121</width>
+           <height>111</height>
+          </rect>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(40, 46, 51, 255), stop:1 rgba(49, 56, 63, 255));
+font: 75 12pt &quot;Nirmala UI&quot;;
+color: rgb(112, 119, 129);
+border: 3px groove rgb(40, 46, 51);
+border-radius:20px; 
+border-style:outset;</string>
+         </property>
+         <property name="frameShape">
+          <enum>QFrame::StyledPanel</enum>
+         </property>
+         <property name="frameShadow">
+          <enum>QFrame::Raised</enum>
+         </property>
+        </widget>
+        <widget class="QPushButton" name="pushButton_14">
+         <property name="geometry">
+          <rect>
+           <x>80</x>
+           <y>130</y>
+           <width>51</width>
+           <height>41</height>
+          </rect>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(61, 68, 75, 255), stop:1 rgba(76, 85, 94, 255));
+font: 75 12pt &quot;Nirmala UI&quot;;
+color:  rgb(24, 28, 39);
+border: 3px groove rgb(61, 68, 75);
+border-radius:15px; 
+border-style:outset;</string>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+         <property name="icon">
+          <iconset>
+           <normaloff>../../finalproj/icon/icons8-trash-24.png</normaloff>../../finalproj/icon/icons8-trash-24.png</iconset>
+         </property>
+        </widget>
+        <widget class="QPushButton" name="pushButton_24">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>130</y>
+           <width>51</width>
+           <height>41</height>
+          </rect>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(61, 68, 75, 255), stop:1 rgba(76, 85, 94, 255));
+font: 75 12pt &quot;Nirmala UI&quot;;
+color:  rgb(24, 28, 39);
+border: 3px groove rgb(61, 68, 75);
+border-radius:15px; 
+border-style:outset;</string>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+         <property name="icon">
+          <iconset>
+           <normaloff>../../finalproj/icon/icons8-edit-24.png</normaloff>../../finalproj/icon/icons8-edit-24.png</iconset>
+         </property>
+        </widget>
+       </widget>
+      </item>
+      <item row="2" column="0">
+       <widget class="QFrame" name="frame_14">
+        <property name="styleSheet">
+         <string notr="true">background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(24, 25, 29, 255), stop:1 rgba(29, 31, 36, 255));
+border-style:inset;
+border: 5px groove  rgb(24, 25, 29);</string>
+        </property>
+        <property name="frameShape">
+         <enum>QFrame::StyledPanel</enum>
+        </property>
+        <property name="frameShadow">
+         <enum>QFrame::Raised</enum>
+        </property>
+        <widget class="QFrame" name="frame_15">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>10</y>
+           <width>121</width>
+           <height>111</height>
+          </rect>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(40, 46, 51, 255), stop:1 rgba(49, 56, 63, 255));
+font: 75 12pt &quot;Nirmala UI&quot;;
+color: rgb(112, 119, 129);
+border: 3px groove rgb(40, 46, 51);
+border-radius:20px; 
+border-style:outset;</string>
+         </property>
+         <property name="frameShape">
+          <enum>QFrame::StyledPanel</enum>
+         </property>
+         <property name="frameShadow">
+          <enum>QFrame::Raised</enum>
+         </property>
+        </widget>
+        <widget class="QPushButton" name="pushButton_15">
+         <property name="geometry">
+          <rect>
+           <x>80</x>
+           <y>130</y>
+           <width>51</width>
+           <height>41</height>
+          </rect>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(61, 68, 75, 255), stop:1 rgba(76, 85, 94, 255));
+font: 75 12pt &quot;Nirmala UI&quot;;
+color:  rgb(24, 28, 39);
+border: 3px groove rgb(61, 68, 75);
+border-radius:15px; 
+border-style:outset;</string>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+         <property name="icon">
+          <iconset>
+           <normaloff>../../finalproj/icon/icons8-trash-24.png</normaloff>../../finalproj/icon/icons8-trash-24.png</iconset>
+         </property>
+        </widget>
+        <widget class="QPushButton" name="pushButton_25">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>130</y>
+           <width>51</width>
+           <height>41</height>
+          </rect>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(61, 68, 75, 255), stop:1 rgba(76, 85, 94, 255));
+font: 75 12pt &quot;Nirmala UI&quot;;
+color:  rgb(24, 28, 39);
+border: 3px groove rgb(61, 68, 75);
+border-radius:15px; 
+border-style:outset;</string>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+         <property name="icon">
+          <iconset>
+           <normaloff>../../finalproj/icon/icons8-edit-24.png</normaloff>../../finalproj/icon/icons8-edit-24.png</iconset>
          </property>
         </widget>
        </widget>
@@ -715,7 +773,7 @@ border-radius:15px; </string>
      <x>0</x>
      <y>0</y>
      <width>1413</width>
-     <height>22</height>
+     <height>26</height>
     </rect>
    </property>
   </widget>

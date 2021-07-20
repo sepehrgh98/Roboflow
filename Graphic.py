@@ -36,7 +36,7 @@ class MainPageWindow(QMainWindow, MainPage):
         super(MainPageWindow, self).__init__()
         self.setupUi(self)
         self.myLogicObject = RoboflowLogic("chess", "piece")
-        self.UploadDataBTN.clicked.connect(self.UPloadData)
+        # self.UploadDataBTN.clicked.connect(self.UPloadData)
         self.start_slider.setRange(0,90)
         self.end_slider.setRange(90,100)
         self.start_slider.setValue(75)
