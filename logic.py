@@ -6,6 +6,7 @@ class RoboflowLogic:
         self.projectName = projectName
         self.detectionObject = detectionObject
         self.Data = []
+        self.cash_Data=[]
         # self.Data = [4,9,5,8,5,8,5,8,5,6,9,1,2,8,5,6,9,8,7,4,1,5,9,8,7,4,5,2,3,21,6,5,4,9,8,5,1,9]
         self.training = []
         self.validation = []

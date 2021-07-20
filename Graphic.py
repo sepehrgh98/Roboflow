@@ -54,17 +54,20 @@ class MainPageWindow(QMainWindow, MainPage):
         # if len(self.myLogicObject.Data):
         #     for image in self.myLogicObject.Data:
         #         print(image)
+        
+        self.upload_frame.setHidden(True)
+        self.image_box.setHidden(True)
+        self.im1.setHidden(True)
+        self.im2.setHidden(True)
+        self.im3.setHidden(True)
+        self.im4.setHidden(True)
+        self.im5.setHidden(True)
+        # self.DeleteBTN.setHidden(True)
+        # self.DeleteBTN.setHidden(True)
+        # self.DeleteBTN.setHidden(True)
+        # self.DeleteBTN.setHidden(True)
 
-        # img = myImage(os.getcwd()+r'\Pic.jpg')
-        # self.myLogicObject.Data.append(img)
-
-
-        # imageBTN = QPushButton(self.frame_6)
-        # imageBTN.clicked.connect(lambda: self.Labeling(img))
-        # imageBTN.setIcon(QtGui.QIcon(self.myLogicObject.Data[0].path))
-        # imageBTN.setIconSize(QtCore.QSize(50,50))
-        # self.image_view_window = None
-
+        self.upload_data.clicked.connect(self.upload_Data)
     def show_image_labeling(self):
         self.Add_Label_frame.setHidden(False)
         for img in self.myLogicObject.Data:
@@ -80,10 +83,10 @@ class MainPageWindow(QMainWindow, MainPage):
         training_pr = int(self.Train_Label.text())/100
         test_pr = int(self.Test_Label.text())/100
         validation_pr = int(self.Validation_Label.text())/100
-        self.myLogicObject.Test_Train_data(training_pr,validation_pr,test_pr)
         self.Trd.setText(f"{training_pr*100} %")
-        self.Trt.setText(str(len(self.myLogicObject.training)))
+        self.myLogicObject.Test_Train_data(training_pr,validation_pr,test_pr)
         self.Ted.setText(f"{test_pr*100} %")
+        self.Trt.setText(str(len(self.myLogicObject.training)))
         self.Tet.setText(str(len(self.myLogicObject.test)))
         self.Vd.setText(f"{validation_pr*100} %")
         self.Vt.setText(str(len(self.myLogicObject.validation)))
@@ -97,19 +100,79 @@ class MainPageWindow(QMainWindow, MainPage):
         self.Validation_Label.setText(str(100-size2))
 
 
+    def upload_Data(self):
+        self.upload_frame.setHidden(False)
+        self.select_folder.clicked.connect(self.UPloadData_folder)
+        self.finished_uploading.clicked.connect(self.finish_upload)
+        self.select_files.clicked.connect(self.UPloadData_files)
 
 
-    def UPloadData(self):
-        Tk().withdraw()                              
-        slash = tkinter.filedialog.askdirectory()    
-        os.path.normpath(slash)                      
-        path=glob.glob(slash+"/*")                    
+    def UPloadData_folder(self):
+        
+
+        slash = tkinter.filedialog.askdirectory()    #select file dialog
+        Tk().withdraw()                              #to hide the window behind the selector screen
+        os.path.normpath(slash)                      # / --> //
+        path=glob.glob(slash+"/*")                    #  read multiple images address    
         for i in path:
             img=myImage(i)
-            self.myLogicObject.Data.append(img)
+            self.myLogicObject.cash_Data.append(img)
+       
+    
+    def UPloadData_files(self):
+        print(self.myLogicObject.Data)
+        Tk().withdraw()                              
+        slash = tkinter.filedialog.askopenfilename()    
+        path=os.path.normpath(slash)                      
+                              
+        img=myImage(path)
+        self.myLogicObject.Data.append(img)
+        print(self.myLogicObject.Data)
 
         print(self.myLogicObject.Data)
 
+    def UPloadData_Drag_Drop(self):
+        pass
+
+
+
+    def finish_upload(self):
+        self.myLogicObject.Data = self.myLogicObject.cash_Data.copy()
+        self.myLogicObject.cash_Data.clear()
+        print(self.myLogicObject.Data)
+
+        self.image_box.setHidden(False)
+        self.UploadData_showimg()
+    
+
+    def UploadData_showimg(self):
+        
+        if(len(self.myLogicObject.Data)==1):
+            self.im1.setHidden(False)
+
+        elif(len(self.myLogicObject.Data)==2):
+            self.im1.setHidden(False)
+            self.im2.setHidden(False)
+
+        elif(len(self.myLogicObject.Data)==3):
+            self.im1.setHidden(False)
+            self.im2.setHidden(False)
+            self.im3.setHidden(False)
+
+        elif(len(self.myLogicObject.Data)==4):
+            self.im1.setHidden(False)
+            self.im2.setHidden(False)
+            self.im3.setHidden(False)
+            self.im4.setHidden(False)
+
+        elif(len(self.myLogicObject.Data)>=5):
+            self.im1.setHidden(False)
+            self.im2.setHidden(False)
+            self.im3.setHidden(False)
+            self.im4.setHidden(False)
+            self.im5.setHidden(False)
+       
+        
 
     def Labeling(self,event ,img):
         self.image_view_window = PageLabelingWindow(img)
