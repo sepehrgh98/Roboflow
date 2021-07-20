@@ -70,14 +70,14 @@ class MainPageWindow(QMainWindow, MainPage):
         self.upload_data.clicked.connect(self.upload_Data)
     def show_image_labeling(self):
         self.Add_Label_frame.setHidden(False)
-        for img in self.myLogicObject.Data:
-            label = QLabel(self.Add_Label_frame)
-            label.resize(50,50)
-            pix = QPixmap(img.path)
-            pix = pix.scaled(label.size())
-            label.setPixmap(pix)
-            self.Images_gridLayout.addWidget(label)
-            label.mousePressEvent = lambda event, img=img: self.Labeling(event, img)
+        # for img in self.myLogicObject.Data:
+        #     label = QLabel(self.Add_Label_frame)
+        #     label.resize(50,50)
+        #     pix = QPixmap(img.path)
+        #     pix = pix.scaled(label.size())
+        #     label.setPixmap(pix)
+        #     self.Images_gridLayout.addWidget(label)
+        #     label.mousePressEvent = lambda event, img=img: self.Labeling(event, img)
 
     def Test_Train_Spliter(self):
         training_pr = int(self.Train_Label.text())/100
@@ -109,11 +109,10 @@ class MainPageWindow(QMainWindow, MainPage):
 
     def UPloadData_folder(self):
         
-
-        slash = tkinter.filedialog.askdirectory()    #select file dialog
-        Tk().withdraw()                              #to hide the window behind the selector screen
-        os.path.normpath(slash)                      # / --> //
-        path=glob.glob(slash+"/*")                    #  read multiple images address    
+        Tk().withdraw()      
+        slash = tkinter.filedialog.askdirectory()    
+        os.path.normpath(slash)                      
+        path=glob.glob(slash+"/*")                   
         for i in path:
             img=myImage(i)
             self.myLogicObject.cash_Data.append(img)

@@ -144,29 +144,34 @@ class RoboflowLogic:
             self.training.append(random.choice(copy_Data))
             copy_Data.remove(self.training[-1])
 
-            copy_Data.remove(self.validation[-1])
-            self.validation.append(random.choice(copy_Data))
+
         for _ in range(validation_number):
+            self.validation.append(random.choice(copy_Data))
+            copy_Data.remove(self.validation[-1])
 
         self.test = copy_Data
-class myImage:
-        self.path = path
 
+
+
+class myImage:
     def __init__(self, path):
         self.detection_obj = []
-
+        self.path = path
         img = cv2.imread(self.path)
     def add_detection_obj(self, detObj):
         self.detection_obj.append(detObj)
+
+
 
 class DetectionObject:
 
     def __init__(self, position, label):
         self.label = label
-
         self.position = position
+
     def __repr__(self):
         return f"{self.label} => {self.position}"
+
     def __str__(self):
         return f"{self.label} => {self.position}"
 
