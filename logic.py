@@ -3,3 +3,4 @@ class RoboflowLogic:
         self.projectName = projectName
         self.AnnotationGroup = AnnotationGroup
         self.Data = []
+        self.cash_Data=[]
