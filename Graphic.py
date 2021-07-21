@@ -7,7 +7,9 @@ import tkinter.filedialog
 from tkinter import *
 import glob
 import cv2
-
+import io
+from PIL.ImageQt import ImageQt
+import argparse
 
 
 
@@ -33,9 +35,12 @@ class MainGUI(QMainWindow, ProjectsWindow):
 
 class MainPageWindow(QMainWindow, MainPage):
     def __init__(self):
+        
         super(MainPageWindow, self).__init__()
         self.setupUi(self)
         self.myLogicObject = RoboflowLogic("chess", "piece")
+        self.rotationflag = None
+        self.cropPosition =None
         # self.UploadDataBTN.clicked.connect(self.UPloadData)
         self.start_slider.setRange(0,90)
         self.end_slider.setRange(90,100)
@@ -55,8 +60,23 @@ class MainPageWindow(QMainWindow, MainPage):
         #     for image in self.myLogicObject.Data:
         #         print(image)
         
+
         self.upload_frame.setHidden(True)
+        self.Add_Label_frame.setHidden(True)
+        self.preprocessing_frame.setHidden(True)
+        self.filter_frame.setHidden(True)
         self.image_box.setHidden(True)
+
+        self.Test_Train_frame.setHidden(True)
+        self.brightness_frame.setHidden(True)
+        self.noisy_frame.setHidden(True)
+        # self.crop_frame.setHiden(True)
+        self.Hue_frame.setHidden(True)
+        self.gray_frame.setHidden(True)
+        self.Blur_frame.setHidden(True)
+        self.rotate_control_frame.setHidden(True)
+        self.rotate_frame.setHidden(True)
+
         self.im1.setHidden(True)
         self.im2.setHidden(True)
         self.im3.setHidden(True)
@@ -67,7 +87,301 @@ class MainPageWindow(QMainWindow, MainPage):
         # self.DeleteBTN.setHidden(True)
         # self.DeleteBTN.setHidden(True)
 
-        self.upload_data.clicked.connect(self.upload_Data)
+        self.main_image_crop.setHidden(True)
+        self.changed_image_crop.setHidden(True)
+        self.CropApplyBTN.setHidden(True)
+        
+
+
+        self.upload_data.clicked.connect(self.upload_button)
+        self.filterBTN.clicked.connect(self.filter_button)
+        self.preprocessingBTN.clicked.connect(self.preprocessing_button)
+        self.RotateApplyBTN.clicked.connect(self.RotateApply)
+
+        self.Hue.clicked.connect(self.hueFilter_graphic)
+        self.brightness.clicked.connect(self.changeBrightness_graphic)
+        self.noisy.clicked.connect(self.noisyFilter_graphic)
+        self.gray.clicked.connect(self.filterGray_graphic)
+        self.Blur.clicked.connect(self.filterBlur_graphic)
+        self.crop.clicked.connect(self.crop_graphic)
+        self.rotate.clicked.connect(self.rotate_graphic)
+        self.CropApplyBTN.clicked.connect(self.CropApply)
+
+
+        self.main_image_crop.mousePressEvent = self.image_crop
+
+
+        rotate_radio_group=QtWidgets.QButtonGroup(self.radio_rotate_widget)
+        rotate_radio_group.addButton(self.clockwis_90)
+        rotate_radio_group.addButton(self.counterclockwis_90)
+        rotate_radio_group.addButton(self.rotate_180)
+        self.clockwis_90.toggled.connect(self.clockwis_90_clicked)
+        self.counterclockwis_90.toggled.connect(self.counterclockwis_90_clicked)
+        self.rotate_180.toggled.connect(self.rotate_180_clicked)
+
+    def clockwis_90_clicked(self,enabled):
+        if enabled :
+            path=self.myLogicObject.rotate("ROTATE_90_CLOCKWISE",self.myLogicObject.Data[0])
+            pix = QPixmap(path)
+            pix = pix.scaled(self.change_image_rotate.size())
+            self.change_image_rotate.setPixmap(pix)
+            self.change_image_rotate.setPixmap(pix)
+            self.rotationflag="ROTATE_90_CLOCKWISE"
+            
+
+    def counterclockwis_90_clicked(self,enabled):
+        if enabled :
+            path=self.myLogicObject.rotate("ROTATE_90_COUNTERCLOCKWISE",self.myLogicObject.Data[0])
+            pix = QPixmap(path)
+            pix = pix.scaled(self.change_image_rotate.size())
+            self.change_image_rotate.setPixmap(pix)
+            self.change_image_rotate.setPixmap(pix)
+            self.rotationflag="ROTATE_90_COUNTERCLOCKWISE"
+
+    def rotate_180_clicked(self,enabled):
+        if enabled :
+            path=self.myLogicObject.rotate("ROTATE_180",self.myLogicObject.Data[0])
+            pix = QPixmap(path)
+            pix = pix.scaled(self.change_image_rotate.size())
+            self.change_image_rotate.setPixmap(pix)
+            self.change_image_rotate.setPixmap(pix)
+            self.rotationflag="ROTATE_180"
+
+    def RotateApply(self):
+        Output_copy=self.myLogicObject.Output
+        for img in Output_copy :
+            self.myLogicObject.Output.remove(img)
+            self.myLogicObject.rotate(self.rotationflag,img)
+            self.myLogicObject.Output.append(img)
+        
+        
+
+
+
+    def image_crop(self,event):
+        self.CropApplyBTN.setHidden(False)
+        roi = cv2.selectROI(self.myLogicObject.Data[0].read())
+        path=self.myLogicObject.crop(self.myLogicObject.Data[0],roi[0],roi[1],roi[2],roi[3])
+        pix = QPixmap(path)
+        pix = pix.scaled(self.changed_image_crop.size())
+        self.changed_image_crop.setPixmap(pix)
+        self.changed_image_crop.setPixmap(pix)
+        self.cropPosition=roi
+
+
+    def CropApply(self):
+
+        Output_copy=self.myLogicObject.Output
+        for img in Output_copy :
+            self.myLogicObject.Output.remove(img)
+            self.myLogicObject.crop(img,self.cropPosition[0],self.cropPosition[1],self.cropPosition[2],self.cropPosition[3])
+            self.myLogicObject.Output.append(img)
+
+    def upload_button(self):
+        # self.Add_Label_frame.setHidden(True)
+        # self.preprocessing_frame.setHidden(True)
+        # self.filter_frame.setHidden(True)
+        # self.Test_Train_frame.setHidden(True)
+        self.upload_frame.setHidden(False)
+        self.select_folder.clicked.connect(self.UPloadData_folder)
+        self.finished_uploading.clicked.connect(self.finish_upload)
+        self.select_files.clicked.connect(self.UPloadData_files)
+        self.UPloadData_Drag_Drop()
+        # self.UPloadData_Drag_Drop()
+    
+    def filter_button(self):
+        
+        # self.upload_frame.setHidden(True)
+        # self.Add_Label_frame.setHidden(True)
+        # self.preprocessing_frame.setHidden(True)
+        # self.Test_Train_frame.setHidden(True)
+        self.filter_frame.setHidden(False)
+        # self.gray.clicked.connect(self.)
+        # self.Blur.clicked.connect(self.)
+        
+        
+        
+    
+    def preprocessing_button(self):
+        # self.upload_frame.setHidden(True)
+        # self.Add_Label_frame.setHidden(True)
+        # self.Test_Train_frame.setHidden(True)
+        # self.filter_frame.setHidden(True)
+        self.preprocessing_frame.setHidden(False)
+        
+        
+        # self.rotate.clicked.connect(self.)
+        # self.resize.clicked.connect(self.)
+        
+        
+
+
+
+    def UPloadData_folder(self):
+        
+        Tk().withdraw()      
+        slash = tkinter.filedialog.askdirectory()    
+        os.path.normpath(slash)                      
+        path=glob.glob(slash+"/*") 
+        self.myLogicObject.p=path                  
+        for i in path:
+            img=myImage(i)
+            self.myLogicObject.cashData_folder.append(img)
+       
+    
+    def UPloadData_files(self):
+        Tk().withdraw()                              
+        slash = tkinter.filedialog.askopenfilename()    
+        path=os.path.normpath(slash)                                  
+        img=myImage(path)
+        self.myLogicObject.cashData_files.append(img)
+        
+        
+
+
+    def UPloadData_Drag_Drop(self):
+        pass
+        # self.Dragdrop=DragDrop()
+
+
+      
+
+
+    def finish_upload(self):
+        self.myLogicObject.cashData_folder.extend(self.myLogicObject.cashData_files)
+        self.myLogicObject.Data = self.myLogicObject.cashData_folder.copy()
+        self.myLogicObject.cashData_folder.clear()
+
+        self.image_box.setHidden(False)
+        self.UploadData_showimg()
+        self.myLogicObject.Output=self.myLogicObject.Data.copy()
+    
+
+    def UploadData_showimg(self):
+        
+        if(len(self.myLogicObject.Data)==1):
+            self.im1.setHidden(False)
+            self.im1.setScaledContents(True)
+            pixmap =QPixmap(self.myLogicObject.Data[0].path)
+            self.im1.setPixmap(pixmap)
+
+        elif(len(self.myLogicObject.Data)==2):
+            self.im1.setHidden(False)
+            self.im2.setHidden(False)
+            self.im1.setScaledContents(True)
+            self.im2.setScaledContents(True)
+            pixmap =QPixmap(self.myLogicObject.Data[0].path)
+            self.im1.setPixmap(pixmap)
+            pixmap =QPixmap(self.myLogicObject.Data[1].path)
+            self.im2.setPixmap(pixmap)
+           
+        elif(len(self.myLogicObject.Data)==3):
+            self.im1.setHidden(False)
+            self.im2.setHidden(False)
+            self.im3.setHidden(False)
+            self.im1.setScaledContents(True)
+            self.im2.setScaledContents(True)
+            self.im3.setScaledContents(True)
+            pixmap =QPixmap(self.myLogicObject.Data[0].path)
+            self.im1.setPixmap(pixmap)
+            pixmap =QPixmap(self.myLogicObject.Data[1].path)
+            self.im2.setPixmap(pixmap)
+            pixmap =QPixmap(self.myLogicObject.Data[2].path)
+            self.im3.setPixmap(pixmap)
+
+        elif(len(self.myLogicObject.Data)==4):
+            self.im1.setHidden(False)
+            self.im2.setHidden(False)
+            self.im3.setHidden(False)
+            self.im4.setHidden(False)
+            self.im1.setScaledContents(True)
+            self.im2.setScaledContents(True)
+            self.im3.setScaledContents(True)
+            self.im4.setScaledContents(True)
+            pixmap =QPixmap(self.myLogicObject.Data[0].path)
+            self.im1.setPixmap(pixmap)
+            pixmap =QPixmap(self.myLogicObject.Data[1].path)
+            self.im2.setPixmap(pixmap)
+            pixmap =QPixmap(self.myLogicObject.Data[2].path)
+            self.im3.setPixmap(pixmap)
+            pixmap =QPixmap(self.myLogicObject.Data[3].path)
+            self.im4.setPixmap(pixmap)
+
+        elif(len(self.myLogicObject.Data)>=5):
+            self.im1.setHidden(False)
+            self.im2.setHidden(False)
+            self.im3.setHidden(False)
+            self.im4.setHidden(False)
+            self.im5.setHidden(False)
+            self.im1.setScaledContents(True)
+            self.im2.setScaledContents(True)
+            self.im3.setScaledContents(True)
+            self.im4.setScaledContents(True)
+            self.im5.setScaledContents(True)
+            pixmap =QPixmap(self.myLogicObject.Data[0].path)
+            self.im1.setPixmap(pixmap)
+            pixmap =QPixmap(self.myLogicObject.Data[1].path)
+            self.im2.setPixmap(pixmap)
+            pixmap =QPixmap(self.myLogicObject.Data[2].path)
+            self.im3.setPixmap(pixmap)
+            pixmap =QPixmap(self.myLogicObject.Data[3].path)
+            self.im4.setPixmap(pixmap)
+            pixmap =QPixmap(self.myLogicObject.Data[4].path)
+            self.im5.setPixmap(pixmap)
+       
+
+    def noisyFilter_graphic(self):
+        self.noisy_frame.setHidden(False)
+        cv2.imshow("1",self.myLogicObject.noisyFilter()[0])
+        
+        
+    def hueFilter_graphic(self):
+        self.Hue_frame.setHidden(False)
+        print(self.myLogicObject.hueFilter())
+        
+
+    def filterGray_graphic(self):
+        self.gray_frame.setHidden(False)
+        cv2.imshow("1",self.myLogicObject.filterGray()[0])
+
+    def filterBlur_graphic(self):
+        self.Blur_frame.setHidden(False)
+        cv2.imshow("1",self.myLogicObject.filterBlur()[0])
+
+    def changeBrightness_graphic(self):
+        self.brightness_frame.setHidden(False)
+        print(self.myLogicObject.changeBrightness())
+
+
+    def rotate_graphic(self):
+        self.rotate_control_frame.setHidden(False)
+        self.rotate_frame.setHidden(False)
+        pix = QPixmap(self.myLogicObject.Data[0].path)
+        pix = pix.scaled(self.main_image_rotate.size())
+        self.main_image_rotate.setPixmap(pix)
+        self.change_image_rotate.setPixmap(pix)
+        # self.myLogicObject.rotate("ROTATE_180")
+
+
+
+    def crop_graphic(self):
+        self.main_image_crop.setHidden(False)
+        self.changed_image_crop.setHidden(False)
+        
+        pix = QPixmap(self.myLogicObject.Data[0].path)
+        pix = pix.scaled(self.main_image_crop.size())
+        self.main_image_crop.setPixmap(pix)
+        self.changed_image_crop.setPixmap(pix)
+
+        # img_raw = self.myLogicObject.Data[0].read()
+        # roi = cv2.selectROI(img_raw)
+        # print(roi)
+        # self.myLogicObject.crop(roi[0],roi[1],roi[2],roi[3])
+
+
+
+
+
     def show_image_labeling(self):
         self.Add_Label_frame.setHidden(False)
         # for img in self.myLogicObject.Data:
@@ -100,84 +414,34 @@ class MainPageWindow(QMainWindow, MainPage):
         self.Validation_Label.setText(str(100-size2))
 
 
-    def upload_Data(self):
-        self.upload_frame.setHidden(False)
-        self.select_folder.clicked.connect(self.UPloadData_folder)
-        self.finished_uploading.clicked.connect(self.finish_upload)
-        self.select_files.clicked.connect(self.UPloadData_files)
-
-
-    def UPloadData_folder(self):
-        
-        Tk().withdraw()      
-        slash = tkinter.filedialog.askdirectory()    
-        os.path.normpath(slash)                      
-        path=glob.glob(slash+"/*")                   
-        for i in path:
-            img=myImage(i)
-            self.myLogicObject.cash_Data.append(img)
-       
     
-    def UPloadData_files(self):
-        print(self.myLogicObject.Data)
-        Tk().withdraw()                              
-        slash = tkinter.filedialog.askopenfilename()    
-        path=os.path.normpath(slash)                      
-                              
-        img=myImage(path)
-        self.myLogicObject.Data.append(img)
-        print(self.myLogicObject.Data)
-
-        print(self.myLogicObject.Data)
-
-    def UPloadData_Drag_Drop(self):
-        pass
-
-
-
-    def finish_upload(self):
-        self.myLogicObject.Data = self.myLogicObject.cash_Data.copy()
-        self.myLogicObject.cash_Data.clear()
-        print(self.myLogicObject.Data)
-
-        self.image_box.setHidden(False)
-        self.UploadData_showimg()
-    
-
-    def UploadData_showimg(self):
-        
-        if(len(self.myLogicObject.Data)==1):
-            self.im1.setHidden(False)
-
-        elif(len(self.myLogicObject.Data)==2):
-            self.im1.setHidden(False)
-            self.im2.setHidden(False)
-
-        elif(len(self.myLogicObject.Data)==3):
-            self.im1.setHidden(False)
-            self.im2.setHidden(False)
-            self.im3.setHidden(False)
-
-        elif(len(self.myLogicObject.Data)==4):
-            self.im1.setHidden(False)
-            self.im2.setHidden(False)
-            self.im3.setHidden(False)
-            self.im4.setHidden(False)
-
-        elif(len(self.myLogicObject.Data)>=5):
-            self.im1.setHidden(False)
-            self.im2.setHidden(False)
-            self.im3.setHidden(False)
-            self.im4.setHidden(False)
-            self.im5.setHidden(False)
-       
-        
 
     def Labeling(self,event ,img):
         self.image_view_window = PageLabelingWindow(img)
         self.image_view_window.show()
 
+class DragDrop(QMainWindow):
+    def __init__(self):
+        super().__init__()
+        self.setWindowTitle("Drag and Drop")
+        self.resize(720, 480)
+        self.setAcceptDrops(True)
 
+    def dragEnterEvent(self, event):
+        if event.mimeData().hasUrls():
+            event.accept()
+        else:
+            event.ignore()
+
+    def dropEvent(self, event):
+        files = [u.toLocalFile() for u in event.mimeData().urls()]
+        for f in files:
+            img=myImage(f)
+            print(img)
+            # self.myLogicObject.cashData_files.append(img)
+
+
+            
 class PageLabelingWindow(QMainWindow, imageView):
     def __init__(self, img):
         super(PageLabelingWindow, self).__init__()
@@ -323,3 +587,16 @@ class CustomQGraphicsRectItem(QtWidgets.QGraphicsRectItem):
 
 
         
+
+
+# img=self.myLogicObject.noisyFilter()[0]
+#         channels = 1
+#         print(img.shape)
+#         height, width = img.shape[:2]
+#         print(height)
+#         print(img.data)
+#         bytesPerLine = channels * width
+#         qImg = QtGui.QImage(img.data, width, height, QtGui.QImage.Format_RGB)
+#         pixmap = QtGui.QPixmap(qImg)
+#         self.label_6.setPixmap(pixmap)
+#         print(qImg)
