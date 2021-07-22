@@ -57,13 +57,14 @@ border-style:outset;</string>
        </rect>
       </property>
       <property name="styleSheet">
-       <string notr="true">background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0.338308 rgba(24, 25, 29, 255), stop:1 rgba(35, 37, 43, 255));
+       <string notr="true">#upload_data{
+background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0.338308 rgba(24, 25, 29, 255), stop:1 rgba(35, 37, 43, 255));
 font: 75 12pt &quot;Nirmala UI&quot;;
-color: rgb(112, 119, 129);
+color: red;
 border: 4px groove rgb(24, 25, 29);
 border-radius:30px; 
 border-style:outset;
-
+}
 
 
 
@@ -85,7 +86,7 @@ border-style:outset;
       <property name="styleSheet">
        <string notr="true">background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0.338308 rgba(24, 25, 29, 255), stop:1 rgba(35, 37, 43, 255));
 font: 75 12pt &quot;Nirmala UI&quot;;
-color: rgb(112, 119, 129);
+color: red;
 border: 4px groove rgb(24, 25, 29);
 border-radius:30px; 
 border-style:outset;
@@ -105,13 +106,14 @@ border-style:outset;
        </rect>
       </property>
       <property name="styleSheet">
-       <string notr="true">background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0.338308 rgba(24, 25, 29, 255), stop:1 rgba(35, 37, 43, 255));
+       <string notr="true">#preprocessingBTN{
+background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0.338308 rgba(24, 25, 29, 255), stop:1 rgba(35, 37, 43, 255));
 font: 75 12pt &quot;Nirmala UI&quot;;
-color: rgb(112, 119, 129);
+color: red;
 border: 4px groove rgb(24, 25, 29);
 border-radius:30px; 
 border-style:outset;
-</string>
+}</string>
       </property>
       <property name="text">
        <string>       preprocessing</string>
@@ -127,13 +129,15 @@ border-style:outset;
        </rect>
       </property>
       <property name="styleSheet">
-       <string notr="true">background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0.338308 rgba(24, 25, 29, 255), stop:1 rgba(35, 37, 43, 255));
+       <string notr="true">#TrainTestBTN{
+background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0.338308 rgba(24, 25, 29, 255), stop:1 rgba(35, 37, 43, 255));
 font: 75 12pt &quot;Nirmala UI&quot;;
-color: rgb(112, 119, 129);
+color: red;
+
 border: 4px groove rgb(24, 25, 29);
 border-radius:30px; 
 border-style:outset;
-</string>
+}</string>
       </property>
       <property name="text">
        <string>   Train/Test</string>
@@ -149,13 +153,15 @@ border-style:outset;
        </rect>
       </property>
       <property name="styleSheet">
-       <string notr="true">background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0.338308 rgba(24, 25, 29, 255), stop:1 rgba(35, 37, 43, 255));
+       <string notr="true">#addLabelBTN{
+background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0.338308 rgba(24, 25, 29, 255), stop:1 rgba(35, 37, 43, 255));
 font: 75 12pt &quot;Nirmala UI&quot;;
-color: rgb(112, 119, 129);
+color: red;
+
 border: 4px groove rgb(24, 25, 29);
 border-radius:30px; 
 border-style:outset;
-</string>
+}</string>
       </property>
       <property name="text">
        <string>add Label</string>
@@ -173,7 +179,7 @@ border-style:outset;
       <property name="styleSheet">
        <string notr="true">background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0.338308 rgba(24, 25, 29, 255), stop:1 rgba(35, 37, 43, 255));
 font: 75 12pt &quot;Nirmala UI&quot;;
-color: rgb(112, 119, 129);
+color: red;
 border: 4px groove rgb(24, 25, 29);
 border-radius:30px; 
 border-style:outset;
@@ -345,9 +351,9 @@ border-style:outset;</string>
      <widget class="QPushButton" name="finished_uploading">
       <property name="geometry">
        <rect>
-        <x>720</x>
-        <y>260</y>
-        <width>301</width>
+        <x>750</x>
+        <y>200</y>
+        <width>271</width>
         <height>81</height>
        </rect>
       </property>
@@ -455,8 +461,8 @@ border-style:outset;</string>
      <widget class="QPushButton" name="select_folder">
       <property name="geometry">
        <rect>
-        <x>740</x>
-        <y>50</y>
+        <x>750</x>
+        <y>20</y>
         <width>271</width>
         <height>81</height>
        </rect>
@@ -476,9 +482,9 @@ border-style:outset;</string>
      <widget class="QPushButton" name="select_files">
       <property name="geometry">
        <rect>
-        <x>770</x>
-        <y>150</y>
-        <width>251</width>
+        <x>750</x>
+        <y>110</y>
+        <width>271</width>
         <height>81</height>
        </rect>
       </property>
@@ -492,6 +498,27 @@ border-style:outset;</string>
       </property>
       <property name="text">
        <string>select files</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="delete_selected_folder_file">
+      <property name="geometry">
+       <rect>
+        <x>750</x>
+        <y>290</y>
+        <width>341</width>
+        <height>81</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0.338308 rgba(24, 25, 29, 255), stop:1 rgba(35, 37, 43, 255));
+font: 75 12pt &quot;Nirmala UI&quot;;
+color: rgb(112, 119, 129);
+border: 4px groove rgb(24, 25, 29);
+border-radius:30px; 
+border-style:outset;</string>
+      </property>
+      <property name="text">
+       <string>Clear</string>
       </property>
      </widget>
     </widget>
@@ -987,13 +1014,14 @@ border-style:outset;
        </rect>
       </property>
       <property name="styleSheet">
-       <string notr="true">background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0.338308 rgba(24, 25, 29, 255), stop:1 rgba(35, 37, 43, 255));
+       <string notr="true">#rotate{
+background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0.338308 rgba(24, 25, 29, 255), stop:1 rgba(35, 37, 43, 255));
 font: 75 12pt &quot;Nirmala UI&quot;;
 color: rgb(112, 119, 129);
 border: 4px groove rgb(24, 25, 29);
 border-radius:30px; 
 border-style:outset;
-
+}
 </string>
       </property>
       <property name="text">
@@ -1010,13 +1038,14 @@ border-style:outset;
        </rect>
       </property>
       <property name="styleSheet">
-       <string notr="true">background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0.338308 rgba(24, 25, 29, 255), stop:1 rgba(35, 37, 43, 255));
+       <string notr="true">#resizeBTN{
+background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0.338308 rgba(24, 25, 29, 255), stop:1 rgba(35, 37, 43, 255));
 font: 75 12pt &quot;Nirmala UI&quot;;
 color: rgb(112, 119, 129);
 border: 4px groove rgb(24, 25, 29);
 border-radius:30px; 
 border-style:outset;
-
+}
 </string>
       </property>
       <property name="text">
@@ -1033,13 +1062,14 @@ border-style:outset;
        </rect>
       </property>
       <property name="styleSheet">
-       <string notr="true">background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0.338308 rgba(24, 25, 29, 255), stop:1 rgba(35, 37, 43, 255));
+       <string notr="true">#crop{
+background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0.338308 rgba(24, 25, 29, 255), stop:1 rgba(35, 37, 43, 255));
 font: 75 12pt &quot;Nirmala UI&quot;;
 color: rgb(112, 119, 129);
 border: 4px groove rgb(24, 25, 29);
 border-radius:30px; 
 border-style:outset;
-
+}
 </string>
       </property>
       <property name="text">
@@ -1177,35 +1207,12 @@ border-style:outset;
         <string>%</string>
        </property>
       </widget>
-      <widget class="QLineEdit" name="Scale_persent_2">
-       <property name="geometry">
-        <rect>
-         <x>0</x>
-         <y>0</y>
-         <width>81</width>
-         <height>51</height>
-        </rect>
-       </property>
-      </widget>
-      <widget class="QLabel" name="label_6">
-       <property name="geometry">
-        <rect>
-         <x>80</x>
-         <y>0</y>
-         <width>51</width>
-         <height>51</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string>%</string>
-       </property>
-      </widget>
      </widget>
      <widget class="QFrame" name="rotate_control_frame">
       <property name="geometry">
        <rect>
         <x>-140</x>
-        <y>130</y>
+        <y>140</y>
         <width>551</width>
         <height>421</height>
        </rect>
@@ -2012,7 +2019,7 @@ border-style:outset;</string>
        <string>Are you sure?</string>
       </property>
      </widget>
-     <widget class="QPushButton" name="pushButton">
+     <widget class="QPushButton" name="saveBTN">
       <property name="geometry">
        <rect>
         <x>360</x>

@@ -29,10 +29,9 @@ class RoboflowLogic:
     def rotate(self , degre , obj):
         rotate_type = getattr(cv2, degre)
         rotated=cv2.rotate(obj.read(), rotate_type)
-        
         cv2.imwrite(os.path.join(self.output_path , obj.name+".jpg"), rotated)
         img=myImage(os.path.join(self.output_path , obj.name+".jpg"))
-        return  img.path
+        return  img
         
     
 
@@ -42,9 +41,10 @@ class RoboflowLogic:
         height = int(img.shape[0] * scale_percent / 100)
         dim = (width, height)
         resized = cv2.resize(img, dim, interpolation = cv2.INTER_AREA)
+        print(obj.name)
         cv2.imwrite(os.path.join(self.output_path , obj.name+".jpg"), resized)
         imgobj=myImage(os.path.join(self.output_path , obj.name+".jpg"))
-        return  imgobj.path
+        return  imgobj
 
         
 
@@ -52,7 +52,8 @@ class RoboflowLogic:
     def filterGray(self, obj):
         grayed=cv2.cvtColor(obj.read(), cv2.COLOR_BGR2GRAY)
         cv2.imwrite(os.path.join(self.output_path , obj.name+".jpg"), grayed)
-        return  os.path.join(self.output_path , obj.name+".jpg") 
+        img=myImage(os.path.join(self.output_path , obj.name+".jpg"))
+        return  img 
 
         
 
@@ -68,27 +69,31 @@ class RoboflowLogic:
         img = cv2.cvtColor(final_hsv, cv2.COLOR_HSV2BGR)
         output.append(img)
         cv2.imwrite(os.path.join(self.output_path , obj.name+".jpg"), output[0])
-        return  os.path.join(self.output_path , obj.name+".jpg")
+        img = myImage(os.path.join(self.output_path , obj.name+".jpg"))
+        return  img
 
 
 
     def filterBlur(self, obj):
         blured=cv2.GaussianBlur(obj.read(), (9, 9), 0) 
         cv2.imwrite(os.path.join(self.output_path , obj.name+".jpg"), blured)
-        return  os.path.join(self.output_path , obj.name+".jpg")
+        img=myImage(os.path.join(self.output_path , obj.name+".jpg"))
+        return  img
 
 
     def hueFilter(self, obj):
         hued=cv2.cvtColor(obj.read(), cv2.COLOR_BGR2HSV) 
         cv2.imwrite(os.path.join(self.output_path , obj.name+".jpg"), hued)
-        return  os.path.join(self.output_path , obj.name+".jpg")
+        img=myImage(os.path.join(self.output_path , obj.name+".jpg"))
+        return  img
 
 
     def noisyFilter(self,obj , mean=0, var=0.01):
 
         noised=self.__random_noise(obj.read(), mean=mean, var=var)
         cv2.imwrite(os.path.join(self.output_path , obj.name+".jpg"), noised*255)
-        return  os.path.join(self.output_path , obj.name+".jpg")
+        img = myImage(os.path.join(self.output_path , obj.name+".jpg"))
+        return  img
 
 
 
@@ -118,32 +123,31 @@ class RoboflowLogic:
         return out
 
 
-    def crop(self,obj,x, y, height, width):
-        # output = [
-        #     self.__crop(obj.read(), x, y, height, width) 
-        #     for obj in self.Data
-        # ]
-        # cv2.imshow("test", output[0])
-        # return output
-        croped=self.__crop(obj.read(), x, y, height, width) 
+    def crop(self,obj,x, y, width, height):
+        mainimg_height, mainimg_width, _ = obj.read().shape
+        croped=self.__crop(obj.read(), int(x*mainimg_width), int(y*mainimg_height), int(height*mainimg_width), int(width*mainimg_height)) 
         cv2.imwrite(os.path.join(self.output_path , obj.name+".jpg"), croped)
-        return  os.path.join(self.output_path , obj.name+".jpg")
+
+        img=myImage(os.path.join(self.output_path , obj.name+".jpg"))
+        return  img
             
 
 
-    def __crop(self, img, x, y, height, width):
+    def __crop(self, img, x, y, width, height):
         crop_img = img[y:y+width, x:x+height]
         return crop_img            
 
-    def Test_Train_data(self, training_pr, validation_pr, test_pr):
-        training_number = round(training_pr * len(self.Data))
-        validation_number = round(validation_pr * len(self.Data))
-        test_number = round(test_pr * len(self.Data))
-        if round(test_pr * len(self.Data)) == 0 :
+    def Test_Train_data(self, training_pr, validation_pr, test_pr, data):
+
+        training_number = round(training_pr * len(data))
+        validation_number = round(validation_pr * len(data))
+        test_number = round(test_pr * len(data))
+        print(training_number,validation_number,test_number)
+        if round(test_pr * len(data)) == 0 :
             test_number +=1
             validation_number -=1
 
-        copy_Data = self.Data.copy()
+        copy_Data = data.copy()
         for _ in range(training_number):
             self.training.append(random.choice(copy_Data))
             copy_Data.remove(self.training[-1])
@@ -155,6 +159,41 @@ class RoboflowLogic:
 
         self.test = copy_Data
 
+    def make_final_files(self, dir):
+        odir_test = "Test"
+        out_test  = os.path.join(dir, odir_test)
+        if not pathlib.Path(out_test).exists():
+            os.mkdir(out_test)
+        
+        odir_train = "Train"
+        out_train  = os.path.join(dir, odir_train)
+        if not pathlib.Path(out_train).exists():
+            os.mkdir(out_train)
+        
+        odir_validation = "Validation"
+        out_validation  = os.path.join(dir, odir_validation)
+        if not pathlib.Path(out_validation).exists():
+            os.mkdir(out_validation)
+
+        for item in self.test:
+            t = item.read()
+            cv2.imwrite(os.path.join(out_test , item.name+".jpg"), t)
+            if item.detection_obj != None:
+                item.XML_Generator(out_test)
+
+        for item in self.training:
+            t = item.read()
+            cv2.imwrite(os.path.join(out_train , item.name+".jpg"), t)
+            if item.detection_obj != None:
+                item.XML_Generator(out_train)
+
+        for item in self.validation:
+            t = item.read()
+            cv2.imwrite(os.path.join(out_validation , item.name+".jpg"), t)
+            if item.detection_obj != None:
+                item.XML_Generator(out_validation)
+            
+
 
 class myImage:
     def __init__(self, path):
@@ -162,7 +201,7 @@ class myImage:
         self.path = path
         img = cv2.imread(self.path)
         self.height, self.width, c = img.shape
-        self.name = os.path.basename(os.path.normpath(self.path))
+        self.name = ".".join(str(os.path.basename(os.path.normpath(self.path))).split(".")[:-1])
 
     def read(self):
         img = cv2.imread(self.path)
@@ -173,7 +212,7 @@ class myImage:
         self.detection_obj.append(detObj)
 
 
-    def XML_Generator(self):
+    def XML_Generator(self,dir):
         root = gfg.Element("annotation")
         filename = gfg.SubElement(root,"filename")
         filename.text  = self.name
@@ -206,7 +245,7 @@ class myImage:
 
         tree = gfg.ElementTree(root)
       
-        with open (os.path.join(os.getcwd(),'Output/XML.xml'), "wb") as files :
+        with open (os.path.join(dir,rf'{self.name}.xml'), "wb") as files :
             tree.write(files)
 
 
