@@ -36,21 +36,29 @@ class RoboflowLogic:
         
     
 
-    def resize(self, scale_percent):
-        output = []
-        for item in self.Output:
-            img = cv2.imread(item.path, cv2.IMREAD_UNCHANGED)
-            width = int(img.shape[1] * scale_percent / 100)
-            height = int(img.shape[0] * scale_percent / 100)
-            dim = (width, height)
-            resized = cv2.resize(img, dim, interpolation = cv2.INTER_AREA)
-            output.append(resized)
-            cv2.imwrite(os.path.join(self.output_path , item.name+".jpg"), resized)
+    def resize(self, obj, scale_percent):
+        img = cv2.imread(obj.path, cv2.IMREAD_UNCHANGED)
+        width = int(img.shape[1] * scale_percent / 100)
+        height = int(img.shape[0] * scale_percent / 100)
+        dim = (width, height)
+        resized = cv2.resize(img, dim, interpolation = cv2.INTER_AREA)
+        cv2.imwrite(os.path.join(self.output_path , obj.name+".jpg"), resized)
+        imgobj=myImage(os.path.join(self.output_path , obj.name+".jpg"))
+        return  imgobj.path
+        # output = []
+        # for item in self.Output:
+        #     img = cv2.imread(item.path, cv2.IMREAD_UNCHANGED)
+        #     width = int(img.shape[1] * scale_percent / 100)
+        #     height = int(img.shape[0] * scale_percent / 100)
+        #     dim = (width, height)
+        #     resized = cv2.resize(img, dim, interpolation = cv2.INTER_AREA)
+        #     output.append(resized)
+        #     cv2.imwrite(os.path.join(self.output_path , item.name+".jpg"), resized)
             
 
-        # cv2.imshow("test", output[0])
-        self.Output.clear()
-        self.Output = output
+        # # cv2.imshow("test", output[0])
+        # self.Output.clear()
+        # self.Output = output
         
 
     

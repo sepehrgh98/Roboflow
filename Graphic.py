@@ -59,7 +59,7 @@ class MainPageWindow(QMainWindow, MainPage):
         self.filter_frame.setHidden(True)
         self.preprocessing_frame.setHidden(True)
 
-        self.upload_data.clicked.connect(self.upload_Data)
+        self.upload_data.clicked.connect(self.upload_button)
         self.TrainTestBTN.clicked.connect(self.TrainTestfunc)
         self.addLabelBTN.clicked.connect(self.show_image_labeling)    
         self.preprocessingBTN.clicked.connect(self.preprocessingView)
@@ -69,7 +69,7 @@ class MainPageWindow(QMainWindow, MainPage):
         
 
         self.upload_frame.setHidden(True)
-        self.Add_Label_frame.setHidden(True)
+        self.scrollAreaAddLabel.setHidden(True)
         self.preprocessing_frame.setHidden(True)
         self.filter_frame.setHidden(True)
         self.Scale_persent.textChanged[str].connect(self.onChanged_Resize)
@@ -79,12 +79,12 @@ class MainPageWindow(QMainWindow, MainPage):
         self.image_box.setHidden(True)
 
         self.Test_Train_frame.setHidden(True)
-        self.brightness_frame.setHidden(True)
-        self.noisy_frame.setHidden(True)
+        # self.brightness_frame.setHidden(True)
+        # self.noisy_frame.setHidden(True)
         # self.crop_frame.setHiden(True)
-        self.Hue_frame.setHidden(True)
-        self.gray_frame.setHidden(True)
-        self.Blur_frame.setHidden(True)
+        # self.Hue_frame.setHidden(True)
+        # self.gray_frame.setHidden(True)
+        # self.Blur_frame.setHidden(True)
         self.rotate_control_frame.setHidden(True)
         self.rotate_frame.setHidden(True)
 
@@ -101,7 +101,9 @@ class MainPageWindow(QMainWindow, MainPage):
         self.main_image_crop.setHidden(True)
         self.changed_image_crop.setHidden(True)
         self.CropApplyBTN.setHidden(True)
-        
+        self.select_folder.clicked.connect(self.UPloadData_folder)
+        self.finished_uploading.clicked.connect(self.finish_upload)
+        self.select_files.clicked.connect(self.UPloadData_files)
 
 
         self.upload_data.clicked.connect(self.upload_button)
@@ -109,11 +111,11 @@ class MainPageWindow(QMainWindow, MainPage):
         self.preprocessingBTN.clicked.connect(self.preprocessing_button)
         self.RotateApplyBTN.clicked.connect(self.RotateApply)
 
-        self.Hue.clicked.connect(self.hueFilter_graphic)
-        self.brightness.clicked.connect(self.changeBrightness_graphic)
-        self.noisy.clicked.connect(self.noisyFilter_graphic)
-        self.gray.clicked.connect(self.filterGray_graphic)
-        self.Blur.clicked.connect(self.filterBlur_graphic)
+        # self.Hue.clicked.connect(self.hueFilter_graphic)
+        # self.brightness.clicked.connect(self.changeBrightness_graphic)
+        # self.noisy.clicked.connect(self.noisyFilter_graphic)
+        # self.gray.clicked.connect(self.filterGray_graphic)
+        # self.Blur.clicked.connect(self.filterBlur_graphic)
         self.crop.clicked.connect(self.crop_graphic)
         self.rotate.clicked.connect(self.rotate_graphic)
         self.CropApplyBTN.clicked.connect(self.CropApply)
@@ -129,6 +131,98 @@ class MainPageWindow(QMainWindow, MainPage):
         self.clockwis_90.toggled.connect(self.clockwis_90_clicked)
         self.counterclockwis_90.toggled.connect(self.counterclockwis_90_clicked)
         self.rotate_180.toggled.connect(self.rotate_180_clicked)
+
+        self.Resize_Scale_persent = None
+
+    def Do_resize(self):
+        Output_copy=self.myLogicObject.Output
+        for img in Output_copy :
+            self.myLogicObject.Output.remove(img)
+            self.myLogicObject.resize(img,self.Resize_Scale_persent)
+            self.myLogicObject.Output.append(img)
+
+
+
+
+    def resizeImage(self):
+        self.rotate_control_frame.setHidden(True)
+        self.rotate_frame.setHidden(True)
+        self.main_image_crop.setHidden(True)
+        self.changed_image_crop.setHidden(True)
+        self.Resize_frame.setHidden(False)
+        self.Resize_frame_control.setHidden(False)
+        pix = QPixmap(self.myLogicObject.Data[0].path)
+        pix = pix.scaled(self.mainImageResize.size())
+        self.mainImageResize.setPixmap(pix)
+        self.changedImageResize.setPixmap(pix)
+        self.Scale_persent.setText("100")
+        
+        
+
+    def onChanged_Resize(self, text):
+        if text == "" or text == "0":
+            text = "1"
+
+        if eval(text) > 100 :
+            text = "100"
+
+        self.changedImageResize.resize(int(text)/100 * self.mainImageResize.size().height(), int(text)/100 * self.mainImageResize.size().width())
+        self.changedImageResize.setScaledContents(True)
+        self.Resize_Scale_persent = int(text)
+
+
+
+    def Generate(self):
+        pass
+
+    def filterView(self):
+        self.upload_frame.setHidden(True)
+        self.Test_Train_frame.setHidden(True)
+        self.scrollAreaAddLabel.setHidden(True)
+        self.filter_frame.setHidden(False)
+        self.preprocessing_frame.setHidden(True)
+
+    def preprocessingView(self):
+        self.upload_frame.setHidden(True)
+        self.Test_Train_frame.setHidden(True)
+        self.scrollAreaAddLabel.setHidden(True)
+        self.filter_frame.setHidden(True)
+        self.preprocessing_frame.setHidden(False)
+        self.Resize_frame.setHidden(True)
+        self.Resize_frame_control.setHidden(True)
+
+    def TrainTestfunc(self):
+        self.upload_frame.setHidden(True)
+        self.Test_Train_frame.setHidden(False)
+        self.scrollAreaAddLabel.setHidden(True)
+        self.filter_frame.setHidden(True)
+        self.preprocessing_frame.setHidden(True)
+        
+    def show_image_labeling(self):
+        self.scrollAreaAddLabel.setHidden(False)
+        self.upload_frame.setHidden(True)
+        self.Test_Train_frame.setHidden(True)
+        self.filter_frame.setHidden(True)
+        self.preprocessing_frame.setHidden(True)
+        mywidget = QWidget()
+        addLabelLayout = QGridLayout()
+        for i in range(len(self.myLogicObject.Data)):
+            pix = QPixmap(self.myLogicObject.Data[i].path)
+            label = CustomQLabel(id=i)
+            label.setFixedSize(200,200)
+            label.setStyleSheet='''
+                background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(61, 68, 75, 255), stop:1 rgba(76, 85, 94, 255));
+                font: 75 12pt "Nirmala UI";
+                color:  rgb(24, 28, 39);
+                border: 3px groove rgb(61, 68, 75);
+                border-style:outset;
+            '''
+            pix = pix.scaled(label.size())
+            label.setPixmap(pix)
+            addLabelLayout.addWidget(label,i/4,i%4)
+            label.clicked.connect(self.Labeling)
+        mywidget.setLayout(addLabelLayout)
+        self.scrollAreaAddLabel.setWidget(mywidget)
 
     def clockwis_90_clicked(self,enabled):
         if enabled :
@@ -189,7 +283,7 @@ class MainPageWindow(QMainWindow, MainPage):
             self.myLogicObject.Output.append(img)
 
     def upload_button(self):
-        # self.Add_Label_frame.setHidden(True)
+        # self.scrollAreaAddLabel.setHidden(True)
         # self.preprocessing_frame.setHidden(True)
         # self.filter_frame.setHidden(True)
         # self.Test_Train_frame.setHidden(True)
@@ -198,16 +292,14 @@ class MainPageWindow(QMainWindow, MainPage):
         self.scrollAreaAddLabel.setHidden(True)
         self.filter_frame.setHidden(True)
         self.preprocessing_frame.setHidden(True)
-        self.select_folder.clicked.connect(self.UPloadData_folder)
-        self.finished_uploading.clicked.connect(self.finish_upload)
-        self.select_files.clicked.connect(self.UPloadData_files)
+  
         self.UPloadData_Drag_Drop()
         # self.UPloadData_Drag_Drop()
     
     def filter_button(self):
         
         # self.upload_frame.setHidden(True)
-        # self.Add_Label_frame.setHidden(True)
+        # self.scrollAreaAddLabel.setHidden(True)
         # self.preprocessing_frame.setHidden(True)
         # self.Test_Train_frame.setHidden(True)
         self.filter_frame.setHidden(False)
@@ -219,7 +311,7 @@ class MainPageWindow(QMainWindow, MainPage):
     
     def preprocessing_button(self):
         # self.upload_frame.setHidden(True)
-        # self.Add_Label_frame.setHidden(True)
+        # self.scrollAreaAddLabel.setHidden(True)
         # self.Test_Train_frame.setHidden(True)
         # self.filter_frame.setHidden(True)
         self.preprocessing_frame.setHidden(False)
@@ -372,6 +464,11 @@ class MainPageWindow(QMainWindow, MainPage):
     def rotate_graphic(self):
         self.rotate_control_frame.setHidden(False)
         self.rotate_frame.setHidden(False)
+        self.main_image_crop.setHidden(True)
+        self.changed_image_crop.setHidden(True)
+        self.Resize_frame.setHidden(True)
+        self.Resize_frame_control.setHidden(True)
+
         pix = QPixmap(self.myLogicObject.Data[0].path)
         pix = pix.scaled(self.main_image_rotate.size())
         self.main_image_rotate.setPixmap(pix)
@@ -381,9 +478,12 @@ class MainPageWindow(QMainWindow, MainPage):
 
 
     def crop_graphic(self):
+        self.rotate_control_frame.setHidden(True)
+        self.rotate_frame.setHidden(True)
         self.main_image_crop.setHidden(False)
         self.changed_image_crop.setHidden(False)
-        
+        self.Resize_frame.setHidden(True)
+        self.Resize_frame_control.setHidden(True)
         pix = QPixmap(self.myLogicObject.Data[0].path)
         pix = pix.scaled(self.main_image_crop.size())
         self.main_image_crop.setPixmap(pix)
@@ -399,15 +499,30 @@ class MainPageWindow(QMainWindow, MainPage):
 
 
     def show_image_labeling(self):
-        self.Add_Label_frame.setHidden(False)
-        # for img in self.myLogicObject.Data:
-        #     label = QLabel(self.Add_Label_frame)
-        #     label.resize(50,50)
-        #     pix = QPixmap(img.path)
-        #     pix = pix.scaled(label.size())
-        #     label.setPixmap(pix)
-        #     self.Images_gridLayout.addWidget(label)
-        #     label.mousePressEvent = lambda event, img=img: self.Labeling(event, img)
+        self.scrollAreaAddLabel.setHidden(False)
+        self.upload_frame.setHidden(True)
+        self.Test_Train_frame.setHidden(True)
+        self.filter_frame.setHidden(True)
+        self.preprocessing_frame.setHidden(True)
+        mywidget = QWidget()
+        addLabelLayout = QGridLayout()
+        for i in range(len(self.myLogicObject.Data)):
+            pix = QPixmap(self.myLogicObject.Data[i].path)
+            label = CustomQLabel(id=i)
+            label.setFixedSize(200,200)
+            label.setStyleSheet='''
+                background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(61, 68, 75, 255), stop:1 rgba(76, 85, 94, 255));
+                font: 75 12pt "Nirmala UI";
+                color:  rgb(24, 28, 39);
+                border: 3px groove rgb(61, 68, 75);
+                border-style:outset;
+            '''
+            pix = pix.scaled(label.size())
+            label.setPixmap(pix)
+            addLabelLayout.addWidget(label,i/4,i%4)
+            label.clicked.connect(self.Labeling)
+        mywidget.setLayout(addLabelLayout)
+        self.scrollAreaAddLabel.setWidget(mywidget)
 
     def Test_Train_Spliter(self):
         training_pr = int(self.Train_Label.text())/100
@@ -432,11 +547,12 @@ class MainPageWindow(QMainWindow, MainPage):
 
     
 
-    def Labeling(self,event ,img):
+    def Labeling(self):
         sender = self.sender()
         img = self.myLogicObject.Data[sender.id]
         self.image_view_window = PageLabelingWindow(img)
         self.image_view_window.show()
+
 
 class DragDrop(QMainWindow):
     def __init__(self):
