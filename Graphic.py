@@ -9,7 +9,7 @@ import glob
 import cv2
 import io
 from PIL.ImageQt import ImageQt
-import argparse
+import random
 
 
 
@@ -41,7 +41,6 @@ class MainPageWindow(QMainWindow, MainPage):
         self.myLogicObject = RoboflowLogic("chess", "piece")
         self.rotationflag = None
         self.cropPosition =None
-        # self.UploadDataBTN.clicked.connect(self.UPloadData)
         self.start_slider.setRange(0,90)
         self.end_slider.setRange(90,100)
         self.start_slider.setValue(75)
@@ -58,6 +57,7 @@ class MainPageWindow(QMainWindow, MainPage):
         self.scrollAreaAddLabel.setHidden(True)
         self.filter_frame.setHidden(True)
         self.preprocessing_frame.setHidden(True)
+        self.Generate_frame.setHidden(True)
 
         self.upload_data.clicked.connect(self.upload_button)
         self.TrainTestBTN.clicked.connect(self.TrainTestfunc)
@@ -73,21 +73,24 @@ class MainPageWindow(QMainWindow, MainPage):
         self.preprocessing_frame.setHidden(True)
         self.filter_frame.setHidden(True)
         self.Scale_persent.textChanged[str].connect(self.onChanged_Resize)
-
+        self.Scale_persent_brightness.textChanged[str].connect(self.onChanged_brightness)
+        self.Scale_persent_noisy_var.textChanged[str].connect(self.onChanged_noise_var)
         self.ResizeApplyBTN.clicked.connect(self.Do_resize)
+
 
         self.image_box.setHidden(True)
 
         self.Test_Train_frame.setHidden(True)
-        # self.brightness_frame.setHidden(True)
-        # self.noisy_frame.setHidden(True)
-        # self.crop_frame.setHiden(True)
-        # self.Hue_frame.setHidden(True)
-        # self.gray_frame.setHidden(True)
-        # self.Blur_frame.setHidden(True)
+        self.brightness_frame.setHidden(True)
+        self.noisy_frame.setHidden(True)
+        self.Hue_frame.setHidden(True)
+        self.gray_frame.setHidden(True)
+        self.Blur_frame.setHidden(True)
         self.rotate_control_frame.setHidden(True)
         self.rotate_frame.setHidden(True)
 
+        self.GrayApplyBTN.clicked.connect(self.GrayApply)
+        self.BrightnessApplyBTN.clicked.connect(self.BrightnessApply)
         self.im1.setHidden(True)
         self.im2.setHidden(True)
         self.im3.setHidden(True)
@@ -111,15 +114,18 @@ class MainPageWindow(QMainWindow, MainPage):
         self.preprocessingBTN.clicked.connect(self.preprocessing_button)
         self.RotateApplyBTN.clicked.connect(self.RotateApply)
 
-        # self.Hue.clicked.connect(self.hueFilter_graphic)
-        # self.brightness.clicked.connect(self.changeBrightness_graphic)
-        # self.noisy.clicked.connect(self.noisyFilter_graphic)
-        # self.gray.clicked.connect(self.filterGray_graphic)
-        # self.Blur.clicked.connect(self.filterBlur_graphic)
+        self.BlurApplyBTN.clicked.connect(self.BlurApply)  
+
+        self.Hue.clicked.connect(self.hueFilter_graphic)
+        self.brightness.clicked.connect(self.changeBrightness_graphic)
+        self.noisy.clicked.connect(self.noisyFilter_graphic)
+        self.gray.clicked.connect(self.filterGray_graphic)
+        self.Blur.clicked.connect(self.filterBlur_graphic)
         self.crop.clicked.connect(self.crop_graphic)
         self.rotate.clicked.connect(self.rotate_graphic)
         self.CropApplyBTN.clicked.connect(self.CropApply)
-
+        self.HueApplyBTN.clicked.connect(self.HueApply)
+        self.NoisyApplyBTN.clicked.connect(self.NoisyApply)
 
         self.main_image_crop.mousePressEvent = self.image_crop
 
@@ -142,8 +148,6 @@ class MainPageWindow(QMainWindow, MainPage):
             self.myLogicObject.Output.append(img)
 
 
-
-
     def resizeImage(self):
         self.rotate_control_frame.setHidden(True)
         self.rotate_frame.setHidden(True)
@@ -156,7 +160,6 @@ class MainPageWindow(QMainWindow, MainPage):
         self.mainImageResize.setPixmap(pix)
         self.changedImageResize.setPixmap(pix)
         self.Scale_persent.setText("100")
-        
         
 
     def onChanged_Resize(self, text):
@@ -171,9 +174,49 @@ class MainPageWindow(QMainWindow, MainPage):
         self.Resize_Scale_persent = int(text)
 
 
+    def onChanged_brightness(self, text):
+        if text == "" or text == "0":
+            text = "1"
+
+        if eval(text) > 100 :
+            text = "100"
+
+        path = self.myLogicObject.changeBrightness(self.myLogicObject.Data[0], int(text))
+        pix2 = QPixmap(path)
+        pix2 = pix2.scaled(self.changed_image_brightness.size())
+        self.changed_image_brightness.setPixmap(pix2)
+
+
+    
+    def onChanged_noise_var(self, text):
+        if text == "" or text == "0":
+            text = "0"
+
+        if eval(text) > 1 :
+            text = "1"
+
+        path = self.myLogicObject.noisyFilter(self.myLogicObject.Data[0],0, float(text))
+        pix2 = QPixmap(path)
+        pix2 = pix2.scaled(self.changed_image_noisy.size())
+        self.changed_image_noisy.setPixmap(pix2)
+
 
     def Generate(self):
-        pass
+        self.Generate_frame.setHidden(False)
+        self.upload_frame.setHidden(True)
+        self.Test_Train_frame.setHidden(True)
+        self.scrollAreaAddLabel.setHidden(True)
+        self.filter_frame.setHidden(True)
+        self.preprocessing_frame.setHidden(False)
+        self.Resize_frame.setHidden(True)
+        self.Resize_frame_control.setHidden(True)
+        out = random.sample(self.myLogicObject.Output, 5)
+        print(self.myLogicObject.Output)
+        for i in range(1,len(out)+1):
+            pixmap =QPixmap(out[i].path)
+            pixmap = pixmap.scaled(eval(f"self.im{i}_2").size())
+            eval(f"self.im{i}_2").setPixmap(pixmap)
+            break
 
     def filterView(self):
         self.upload_frame.setHidden(True)
@@ -181,6 +224,7 @@ class MainPageWindow(QMainWindow, MainPage):
         self.scrollAreaAddLabel.setHidden(True)
         self.filter_frame.setHidden(False)
         self.preprocessing_frame.setHidden(True)
+        self.Generate_frame.setHidden(True)
 
     def preprocessingView(self):
         self.upload_frame.setHidden(True)
@@ -190,6 +234,7 @@ class MainPageWindow(QMainWindow, MainPage):
         self.preprocessing_frame.setHidden(False)
         self.Resize_frame.setHidden(True)
         self.Resize_frame_control.setHidden(True)
+        self.Generate_frame.setHidden(True)
 
     def TrainTestfunc(self):
         self.upload_frame.setHidden(True)
@@ -197,6 +242,7 @@ class MainPageWindow(QMainWindow, MainPage):
         self.scrollAreaAddLabel.setHidden(True)
         self.filter_frame.setHidden(True)
         self.preprocessing_frame.setHidden(True)
+        self.Generate_frame.setHidden(True)
         
     def show_image_labeling(self):
         self.scrollAreaAddLabel.setHidden(False)
@@ -204,6 +250,7 @@ class MainPageWindow(QMainWindow, MainPage):
         self.Test_Train_frame.setHidden(True)
         self.filter_frame.setHidden(True)
         self.preprocessing_frame.setHidden(True)
+        self.Generate_frame.setHidden(True)
         mywidget = QWidget()
         addLabelLayout = QGridLayout()
         for i in range(len(self.myLogicObject.Data)):
@@ -259,9 +306,42 @@ class MainPageWindow(QMainWindow, MainPage):
             self.myLogicObject.rotate(self.rotationflag,img)
             self.myLogicObject.Output.append(img)
         
-        
+    def GrayApply(self):
+        Output_copy=self.myLogicObject.Output
+        for img in Output_copy :
+            self.myLogicObject.Output.remove(img)
+            self.myLogicObject.filterGray(img)
+            self.myLogicObject.Output.append(img)
 
+    def BlurApply(self):
+        Output_copy=self.myLogicObject.Output
+        for img in Output_copy :
+            self.myLogicObject.Output.remove(img)
+            self.myLogicObject.filterBlur(img)
+            self.myLogicObject.Output.append(img)
 
+    def HueApply(self):
+        Output_copy=self.myLogicObject.Output
+        for img in Output_copy :
+            self.myLogicObject.Output.remove(img)
+            self.myLogicObject.hueFilter(img)
+            self.myLogicObject.Output.append(img)
+
+    def BrightnessApply(self):
+        Output_copy=self.myLogicObject.Output
+        percent = int(self.Scale_persent_brightness.text())
+        for img in Output_copy :
+            self.myLogicObject.Output.remove(img)
+            self.myLogicObject.changeBrightness(img,percent)
+            self.myLogicObject.Output.append(img)
+
+    def NoisyApply(self):
+        Output_copy=self.myLogicObject.Output
+        var = float(self.Scale_persent_noisy_var.text())
+        for img in Output_copy :
+            self.myLogicObject.Output.remove(img)
+            self.myLogicObject.noisyFilter(img,0,var)
+            self.myLogicObject.Output.append(img)
 
     def image_crop(self,event):
         self.CropApplyBTN.setHidden(False)
@@ -283,10 +363,7 @@ class MainPageWindow(QMainWindow, MainPage):
             self.myLogicObject.Output.append(img)
 
     def upload_button(self):
-        # self.scrollAreaAddLabel.setHidden(True)
-        # self.preprocessing_frame.setHidden(True)
-        # self.filter_frame.setHidden(True)
-        # self.Test_Train_frame.setHidden(True)
+        self.Generate_frame.setHidden(True)
         self.upload_frame.setHidden(False)
         self.Test_Train_frame.setHidden(True)
         self.scrollAreaAddLabel.setHidden(True)
@@ -294,7 +371,6 @@ class MainPageWindow(QMainWindow, MainPage):
         self.preprocessing_frame.setHidden(True)
   
         self.UPloadData_Drag_Drop()
-        # self.UPloadData_Drag_Drop()
     
     def filter_button(self):
         
@@ -303,11 +379,8 @@ class MainPageWindow(QMainWindow, MainPage):
         # self.preprocessing_frame.setHidden(True)
         # self.Test_Train_frame.setHidden(True)
         self.filter_frame.setHidden(False)
-        # self.gray.clicked.connect(self.)
-        # self.Blur.clicked.connect(self.)
         
-        
-        
+  
     
     def preprocessing_button(self):
         # self.upload_frame.setHidden(True)
@@ -321,8 +394,6 @@ class MainPageWindow(QMainWindow, MainPage):
         # self.resize.clicked.connect(self.)
         
         
-
-
 
     def UPloadData_folder(self):
         
@@ -343,17 +414,13 @@ class MainPageWindow(QMainWindow, MainPage):
         img=myImage(path)
         self.myLogicObject.cashData_files.append(img)
         
-        
-
-        print(self.myLogicObject.Data)
 
     def UPloadData_Drag_Drop(self):
         pass
         # self.Dragdrop=DragDrop()
 
 
-      
-
+    
 
     def finish_upload(self):
         self.myLogicObject.cashData_folder.extend(self.myLogicObject.cashData_files)
@@ -439,26 +506,76 @@ class MainPageWindow(QMainWindow, MainPage):
        
 
     def noisyFilter_graphic(self):
+        self.brightness_frame.setHidden(True)
         self.noisy_frame.setHidden(False)
-        cv2.imshow("1",self.myLogicObject.noisyFilter()[0])
+        self.Hue_frame.setHidden(True)
+        self.gray_frame.setHidden(True)
+        self.Blur_frame.setHidden(True)
+        self.Scale_persent_noisy_var.setText("0.01")
+        pix = QPixmap(self.myLogicObject.Data[0].path)
+        pix = pix.scaled(self.main_image_noisy.size())
+        self.main_image_noisy.setPixmap(pix)
+        self.changed_image_noisy.setPixmap(pix)
         
         
     def hueFilter_graphic(self):
+        self.Blur_frame.setHidden(True)
         self.Hue_frame.setHidden(False)
-        print(self.myLogicObject.hueFilter())
+        self.brightness_frame.setHidden(True)
+        self.noisy_frame.setHidden(True)
+        self.gray_frame.setHidden(True)
+        pix = QPixmap(self.myLogicObject.Data[0].path)
+        pix = pix.scaled(self.main_image_hue.size())
+        self.main_image_hue.setPixmap(pix)
+        path = self.myLogicObject.hueFilter(self.myLogicObject.Data[0])
+        pix2 = QPixmap(path)
+        pix2 = pix2.scaled(self.changed_image_hue.size())
+        self.changed_image_hue.setPixmap(pix2)
         
 
     def filterGray_graphic(self):
+        self.Blur_frame.setHidden(True)
+        self.Hue_frame.setHidden(True)
+        self.brightness_frame.setHidden(True)
+        self.noisy_frame.setHidden(True)
         self.gray_frame.setHidden(False)
-        cv2.imshow("1",self.myLogicObject.filterGray()[0])
+        self.GrayApplyBTN.setHidden(False)
+        pix = QPixmap(self.myLogicObject.Data[0].path)
+        pix = pix.scaled(self.main_image_gray.size())
+        self.main_image_gray.setPixmap(pix)
+        path = self.myLogicObject.filterGray(self.myLogicObject.Data[0])
+        pix2 = QPixmap(path)
+        pix2 = pix2.scaled(self.changed_image_gray.size())
+        self.changed_image_gray.setPixmap(pix2)
+        
+        
 
     def filterBlur_graphic(self):
         self.Blur_frame.setHidden(False)
-        cv2.imshow("1",self.myLogicObject.filterBlur()[0])
+        self.Hue_frame.setHidden(True)
+        self.brightness_frame.setHidden(True)
+        self.noisy_frame.setHidden(True)
+        self.gray_frame.setHidden(True)
+        pix = QPixmap(self.myLogicObject.Data[0].path)
+        pix = pix.scaled(self.main_image_blur.size())
+        self.main_image_blur.setPixmap(pix)
+        path=self.myLogicObject.filterBlur(self.myLogicObject.Data[0])
+        pix1 = QPixmap(path)
+        pix1 = pix1.scaled(self.changed_image_blur.size())
+        self.changed_image_blur.setPixmap(pix1)
 
     def changeBrightness_graphic(self):
         self.brightness_frame.setHidden(False)
-        print(self.myLogicObject.changeBrightness())
+        self.noisy_frame.setHidden(True)
+        self.Hue_frame.setHidden(True)
+        self.gray_frame.setHidden(True)
+        self.Blur_frame.setHidden(True)
+        self.Scale_persent_brightness.setText("0")
+        pix = QPixmap(self.myLogicObject.Data[0].path)
+        pix = pix.scaled(self.main_image_brightness.size())
+        self.main_image_brightness.setPixmap(pix)
+
+        self.changed_image_brightness.setPixmap(pix)
 
 
     def rotate_graphic(self):
@@ -493,8 +610,6 @@ class MainPageWindow(QMainWindow, MainPage):
         # roi = cv2.selectROI(img_raw)
         # print(roi)
         # self.myLogicObject.crop(roi[0],roi[1],roi[2],roi[3])
-
-
 
 
 

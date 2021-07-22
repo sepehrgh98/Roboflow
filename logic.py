@@ -18,7 +18,7 @@ class RoboflowLogic:
         self.validation = []
         self.test = []
         self.Output = []
-        odir = "Output"
+        odir = "Outputs"
         self.output_path  = os.path.join(os.getcwd(), odir)
         if not pathlib.Path(self.output_path).exists():
             os.mkdir(self.output_path )
@@ -45,73 +45,50 @@ class RoboflowLogic:
         cv2.imwrite(os.path.join(self.output_path , obj.name+".jpg"), resized)
         imgobj=myImage(os.path.join(self.output_path , obj.name+".jpg"))
         return  imgobj.path
-        # output = []
-        # for item in self.Output:
-        #     img = cv2.imread(item.path, cv2.IMREAD_UNCHANGED)
-        #     width = int(img.shape[1] * scale_percent / 100)
-        #     height = int(img.shape[0] * scale_percent / 100)
-        #     dim = (width, height)
-        #     resized = cv2.resize(img, dim, interpolation = cv2.INTER_AREA)
-        #     output.append(resized)
-        #     cv2.imwrite(os.path.join(self.output_path , item.name+".jpg"), resized)
-            
 
-        # # cv2.imshow("test", output[0])
-        # self.Output.clear()
-        # self.Output = output
         
 
     
-    def filterGray(self):
-        output = [
-            cv2.cvtColor(obj.read(), cv2.COLOR_BGR2GRAY) 
-            for obj in self.Data
-        ]
-        return output
+    def filterGray(self, obj):
+        grayed=cv2.cvtColor(obj.read(), cv2.COLOR_BGR2GRAY)
+        cv2.imwrite(os.path.join(self.output_path , obj.name+".jpg"), grayed)
+        return  os.path.join(self.output_path , obj.name+".jpg") 
+
         
 
 
-    def changeBrightness(self, value=30):
+    def changeBrightness(self,obj, value=30):
         output = []
-
-        for obj in self.Data:
-            hsv = cv2.cvtColor(obj.read(), cv2.COLOR_BGR2HSV)
-            h, s, v = cv2.split(hsv)
-            v = cv2.add(v,value)
-            v[v > 255] = 255
-            v[v < 0] = 0
-            final_hsv = cv2.merge((h, s, v))
-            img = cv2.cvtColor(final_hsv, cv2.COLOR_HSV2BGR)
-            output.append(img)
-
-        cv2.imshow("test", output[0])
+        hsv = cv2.cvtColor(obj.read(), cv2.COLOR_BGR2HSV)
+        h, s, v = cv2.split(hsv)
+        v = cv2.add(v,value)
+        v[v > 255] = 255
+        v[v < 0] = 0
+        final_hsv = cv2.merge((h, s, v))
+        img = cv2.cvtColor(final_hsv, cv2.COLOR_HSV2BGR)
+        output.append(img)
+        cv2.imwrite(os.path.join(self.output_path , obj.name+".jpg"), output[0])
+        return  os.path.join(self.output_path , obj.name+".jpg")
 
 
-    def filterBlur(self):
-        output = [
-            cv2.GaussianBlur(obj.read(), (9, 9), 0) 
-            for obj in self.Data
-        ]
-        return output
+
+    def filterBlur(self, obj):
+        blured=cv2.GaussianBlur(obj.read(), (9, 9), 0) 
+        cv2.imwrite(os.path.join(self.output_path , obj.name+".jpg"), blured)
+        return  os.path.join(self.output_path , obj.name+".jpg")
 
 
-    def hueFilter(self):
-        output = [
-            cv2.cvtColor(obj.read(), cv2.COLOR_BGR2HSV) 
-            for obj in self.Data
-        ]
-        cv2.imshow("test", output[0])
-        return output
+    def hueFilter(self, obj):
+        hued=cv2.cvtColor(obj.read(), cv2.COLOR_BGR2HSV) 
+        cv2.imwrite(os.path.join(self.output_path , obj.name+".jpg"), hued)
+        return  os.path.join(self.output_path , obj.name+".jpg")
 
 
-    def noisyFilter(self, mean=0, var=0.01):
+    def noisyFilter(self,obj , mean=0, var=0.01):
 
-        output = [
-            self.__random_noise(obj.read(), mean=mean, var=var) 
-            for obj in self.Data
-        ]
-        
-        return output
+        noised=self.__random_noise(obj.read(), mean=mean, var=var)
+        cv2.imwrite(os.path.join(self.output_path , obj.name+".jpg"), noised*255)
+        return  os.path.join(self.output_path , obj.name+".jpg")
 
 
 
