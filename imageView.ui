@@ -13,6 +13,9 @@
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
+  <property name="styleSheet">
+   <string notr="true">background-color: rgb(24, 25, 29);</string>
+  </property>
   <widget class="QWidget" name="centralwidget">
    <widget class="QGraphicsView" name="ImageView">
     <property name="geometry">
@@ -34,7 +37,10 @@
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">background-color: rgb(255, 255, 255);</string>
+     <string notr="true">background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(40, 46, 51, 255), stop:1 rgba(49, 56, 63, 255));
+border-radius:30px; 
+border: 4px groove  rgb(40, 46, 51);
+border-style:outset;</string>
     </property>
     <property name="frameShape">
      <enum>QFrame::StyledPanel</enum>
@@ -51,6 +57,14 @@
        <height>31</height>
       </rect>
      </property>
+     <property name="styleSheet">
+      <string notr="true">background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0.338308 rgba(24, 25, 29, 255), stop:1 rgba(35, 37, 43, 255));
+font: 75 12pt &quot;Nirmala UI&quot;;
+color: rgb(112, 119, 129);
+border: 4px groove rgb(24, 25, 29);
+border-style:outset;
+</string>
+     </property>
     </widget>
     <widget class="QPushButton" name="setLabelBTN">
      <property name="geometry">
@@ -58,8 +72,17 @@
        <x>20</x>
        <y>70</y>
        <width>131</width>
-       <height>21</height>
+       <height>31</height>
       </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0.338308 rgba(24, 25, 29, 255), stop:1 rgba(35, 37, 43, 255));
+font: 75 12pt &quot;Nirmala UI&quot;;
+color: rgb(112, 119, 129);
+border: 4px groove rgb(24, 25, 29);
+border-radius:15px; 
+border-style:outset;
+</string>
      </property>
      <property name="text">
       <string>ADD!</string>
@@ -68,7 +91,7 @@
     <widget class="QWidget" name="verticalLayoutWidget">
      <property name="geometry">
       <rect>
-       <x>10</x>
+       <x>20</x>
        <y>120</y>
        <width>161</width>
        <height>331</height>
@@ -89,6 +112,14 @@
        <height>41</height>
       </rect>
      </property>
+     <property name="styleSheet">
+      <string notr="true">background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0.338308 rgba(24, 25, 29, 255), stop:1 rgba(35, 37, 43, 255));
+font: 75 12pt &quot;Nirmala UI&quot;;
+color: rgb(112, 119, 129);
+border: 4px groove rgb(24, 25, 29);
+border-radius:15px; 
+border-style:outset;</string>
+     </property>
      <property name="text">
       <string>Finished!</string>
      </property>
@@ -101,6 +132,14 @@
        <width>161</width>
        <height>41</height>
       </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0.338308 rgba(24, 25, 29, 255), stop:1 rgba(35, 37, 43, 255));
+font: 75 12pt &quot;Nirmala UI&quot;;
+color: rgb(112, 119, 129);
+border: 4px groove rgb(24, 25, 29);
+border-radius:15px; 
+border-style:outset;</string>
      </property>
      <property name="text">
       <string>Delete!</string>

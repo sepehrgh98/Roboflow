@@ -1,10 +1,9 @@
 import random
 import cv2
 import numpy as np
+import xml.etree.ElementTree as gfg 
 import os
 import pathlib
-
-
 
 class RoboflowLogic:
     def __init__(self, projectName, detectionObject):
@@ -17,11 +16,13 @@ class RoboflowLogic:
         self.test = []
         self.training = []
         self.validation = []
+        self.test = []
         self.Output = []
         odir = "Output"
         self.output_path  = os.path.join(os.getcwd(), odir)
         if not pathlib.Path(self.output_path).exists():
             os.mkdir(self.output_path )
+
 
 
     # degre should be in ["ROTATE_90_CLOCKWISE", "ROTATE_180", "ROTATE_90_COUNTERCLOCKWISE"]
@@ -37,17 +38,20 @@ class RoboflowLogic:
 
     def resize(self, scale_percent):
         output = []
-        for path in self.Data:
-            img = cv2.imread(path, cv2.IMREAD_UNCHANGED)
+        for item in self.Output:
+            img = cv2.imread(item.path, cv2.IMREAD_UNCHANGED)
             width = int(img.shape[1] * scale_percent / 100)
             height = int(img.shape[0] * scale_percent / 100)
             dim = (width, height)
             resized = cv2.resize(img, dim, interpolation = cv2.INTER_AREA)
             output.append(resized)
+            cv2.imwrite(os.path.join(self.output_path , item.name+".jpg"), resized)
+            
 
-        cv2.imshow("test", output[0])
-
-        return output
+        # cv2.imshow("test", output[0])
+        self.Output.clear()
+        self.Output = output
+        
 
     
     def filterGray(self):
@@ -167,7 +171,6 @@ class RoboflowLogic:
         self.test = copy_Data
 
 
-
 class myImage:
     def __init__(self, path):
         self.detection_obj = []
@@ -185,16 +188,60 @@ class myImage:
         self.detection_obj.append(detObj)
 
 
+    def XML_Generator(self):
+        root = gfg.Element("annotation")
+        filename = gfg.SubElement(root,"filename")
+        filename.text  = self.name
+        path = gfg.SubElement(root,"path")
+        path.text  = self.path
+        size = gfg.SubElement(root, "size")
+        width = gfg.SubElement(size,"width")
+        height = gfg.SubElement(size, "height")
+        width.text  = str(self.width)
+        height.text  = str(self.height)
+        for item in self.detection_obj:
+            ob = gfg.SubElement(root, "object")
+            name = gfg.SubElement(ob, "name")
+            name.text = item.label
+            ownPosition = gfg.SubElement(ob, "Position")
+            x = gfg.SubElement(ownPosition, "x")
+            y = gfg.SubElement(ownPosition, "y")
+            x.text = str(item.position[0])
+            y.text = str(item.position[1])
+            BoxPosition = gfg.SubElement(ob, "BoxPosition")
+            xmin = gfg.SubElement(BoxPosition, "xmin")
+            ymin = gfg.SubElement(BoxPosition, "ymin")
+            xmax = gfg.SubElement(BoxPosition, "xmax")
+            ymax = gfg.SubElement(BoxPosition, "ymax")
+            xmin.text = str(item.Box_start.x())
+            ymin.text = str(item.Box_start.y())
+            xmax.text = str(item.Box_end.x())
+            ymax.text = str(item.Box_end.y())
+  
+
+        tree = gfg.ElementTree(root)
+      
+        with open (os.path.join(os.getcwd(),'Output/XML.xml'), "wb") as files :
+            tree.write(files)
+
+
+    
 
 class DetectionObject:
 
-    def __init__(self, position, label):
+    def __init__(self, position, label, Box_start, Box_end):
         self.label = label
         self.position = position
+        self.Box_start = Box_start
+        self.Box_end = Box_end
+
+
 
     def __repr__(self):
         return f"{self.label} => {self.position}"
 
     def __str__(self):
         return f"{self.label} => {self.position}"
+
+
 

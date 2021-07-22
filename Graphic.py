@@ -1,4 +1,4 @@
-from PyQt5.QtWidgets import QLabel, QMainWindow, QLineEdit, QPushButton, QGraphicsScene, QGraphicsView, QGraphicsScene, QStyle, QProxyStyle 
+from PyQt5.QtWidgets import QGridLayout, QLabel, QMainWindow, QHBoxLayout, QWidget ,QVBoxLayout
 import os
 from PyQt5 import uic, QtWidgets, QtCore,QtGui
 from logic import RoboflowLogic, myImage, DetectionObject
@@ -52,19 +52,30 @@ class MainPageWindow(QMainWindow, MainPage):
         self.Test_Label.setText("15")
         self.Validation_Label.setText("10")
         self.DoSplit.clicked.connect(self.Test_Train_Spliter)
+
+        self.upload_frame.setHidden(True)
         self.Test_Train_frame.setHidden(True)
-        self.Add_Label_frame.setHidden(True)
-        self.TrainTestBTN.clicked.connect(lambda:self.Test_Train_frame.setHidden(False))
-        self.addLabelBTN.clicked.connect(self.show_image_labeling)
-        # if len(self.myLogicObject.Data):
-        #     for image in self.myLogicObject.Data:
-        #         print(image)
+        self.scrollAreaAddLabel.setHidden(True)
+        self.filter_frame.setHidden(True)
+        self.preprocessing_frame.setHidden(True)
+
+        self.upload_data.clicked.connect(self.upload_Data)
+        self.TrainTestBTN.clicked.connect(self.TrainTestfunc)
+        self.addLabelBTN.clicked.connect(self.show_image_labeling)    
+        self.preprocessingBTN.clicked.connect(self.preprocessingView)
+        self.filterBTN.clicked.connect(self.filterView)
+        self.GenerateBTN.clicked.connect(self.Generate)
+        self.resizeBTN.clicked.connect(self.resizeImage)
         
 
         self.upload_frame.setHidden(True)
         self.Add_Label_frame.setHidden(True)
         self.preprocessing_frame.setHidden(True)
         self.filter_frame.setHidden(True)
+        self.Scale_persent.textChanged[str].connect(self.onChanged_Resize)
+
+        self.ResizeApplyBTN.clicked.connect(self.Do_resize)
+
         self.image_box.setHidden(True)
 
         self.Test_Train_frame.setHidden(True)
@@ -183,6 +194,10 @@ class MainPageWindow(QMainWindow, MainPage):
         # self.filter_frame.setHidden(True)
         # self.Test_Train_frame.setHidden(True)
         self.upload_frame.setHidden(False)
+        self.Test_Train_frame.setHidden(True)
+        self.scrollAreaAddLabel.setHidden(True)
+        self.filter_frame.setHidden(True)
+        self.preprocessing_frame.setHidden(True)
         self.select_folder.clicked.connect(self.UPloadData_folder)
         self.finished_uploading.clicked.connect(self.finish_upload)
         self.select_files.clicked.connect(self.UPloadData_files)
@@ -238,6 +253,7 @@ class MainPageWindow(QMainWindow, MainPage):
         
         
 
+        print(self.myLogicObject.Data)
 
     def UPloadData_Drag_Drop(self):
         pass
@@ -417,6 +433,8 @@ class MainPageWindow(QMainWindow, MainPage):
     
 
     def Labeling(self,event ,img):
+        sender = self.sender()
+        img = self.myLogicObject.Data[sender.id]
         self.image_view_window = PageLabelingWindow(img)
         self.image_view_window.show()
 
@@ -470,7 +488,9 @@ class PageLabelingWindow(QMainWindow, imageView):
         else:
             self.setLabelBTN.setEnabled(True)
 
+
     def LabelingFinished(self):
+        self.img.XML_Generator()
         self.close()
 
 
@@ -490,9 +510,7 @@ class PageLabelingWindow(QMainWindow, imageView):
             self.scene.removeItem(self.selectedRect)
             self.DeleteBTN.setEnabled(False)
             self.lineEntry.setText("")
-
         
-        print(self.img.detection_obj)
         if not self.img.detection_obj:
             self.FinishedBTN.setEnabled(False)
     
@@ -500,7 +518,7 @@ class PageLabelingWindow(QMainWindow, imageView):
         self.FinishedBTN.setEnabled(True)
         LabelText = self.lineEntry.text()
         if self.selectedRect.LogicalObj == None:
-            d = DetectionObject((self.selectedRect.start.x() + (self.selectedRect.end.x() - self.selectedRect.start.x())/2,self.selectedRect.start.y() + (self.selectedRect.end.y() -self.selectedRect.start.y())/2), LabelText)
+            d = DetectionObject((self.selectedRect.start.x() + (self.selectedRect.end.x() - self.selectedRect.start.x())/2,self.selectedRect.start.y() + (self.selectedRect.end.y() -self.selectedRect.start.y())/2), LabelText, self.selectedRect.start, self.selectedRect.end)
             self.selectedRect.LogicalObj = d
             self.img.add_detection_obj(self.selectedRect.LogicalObj)
             self.selectedRect.showLabel = QLabel(self.selectedRect.LogicalObj.label,self)
@@ -512,22 +530,15 @@ class PageLabelingWindow(QMainWindow, imageView):
             self.selectedRect.LogicalObj =  DetectionObject((self.selectedRect.start.x() + (self.selectedRect.end.x() - self.selectedRect.start.x())/2,self.selectedRect.start.y() + (self.selectedRect.end.y() -self.selectedRect.start.y())/2), LabelText)
             self.img.add_detection_obj(self.selectedRect.LogicalObj)
             
-
-
         self.lineEntry.setText("")
         self.lineEntry.setEnabled(False)
         self.setLabelBTN.setEnabled(False)
-        print(self.img.detection_obj)
-
-
 
     def HideLabel(self):
         self.lineEntry.setHidden(True)
         self.setLabelBTN.setHidden(True)
         self.lineEntry.setText("")
         
-
-
 
 class CustomQgraphicScene(QtWidgets.QGraphicsScene):
     position = QtCore.pyqtSignal(object)
@@ -568,7 +579,6 @@ class CustomQgraphicScene(QtWidgets.QGraphicsScene):
             self.clickedRect.end = self.clickedRect.end + destination
             self.position.emit(self.clickedRect)
         elif not self.clickedRect and isinstance(self.itemAt(event.scenePos(), QtGui.QTransform()), CustomQGraphicsRectItem):
-            print(isinstance(self.itemAt(event.scenePos(), QtGui.QTransform()), CustomQGraphicsRectItem))
             self._current_rect_item.end = event.scenePos()
             self.position.emit(self._current_rect_item)
 
@@ -586,17 +596,12 @@ class CustomQGraphicsRectItem(QtWidgets.QGraphicsRectItem):
         self.showLabel = None
 
 
-        
+class CustomQLabel(QtWidgets.QLabel):
+    clicked = QtCore.pyqtSignal()
+    def __init__(self,id):
+        super(CustomQLabel, self).__init__()
+        self.id = id
 
-
-# img=self.myLogicObject.noisyFilter()[0]
-#         channels = 1
-#         print(img.shape)
-#         height, width = img.shape[:2]
-#         print(height)
-#         print(img.data)
-#         bytesPerLine = channels * width
-#         qImg = QtGui.QImage(img.data, width, height, QtGui.QImage.Format_RGB)
-#         pixmap = QtGui.QPixmap(qImg)
-#         self.label_6.setPixmap(pixmap)
-#         print(qImg)
+    def mousePressEvent(self, event):
+        self.clicked.emit()
+        QtWidgets.QLabel.mousePressEvent(self, event)
