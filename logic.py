@@ -41,7 +41,6 @@ class RoboflowLogic:
         height = int(img.shape[0] * scale_percent / 100)
         dim = (width, height)
         resized = cv2.resize(img, dim, interpolation = cv2.INTER_AREA)
-        print(obj.name)
         cv2.imwrite(os.path.join(self.output_path , obj.name+".jpg"), resized)
         imgobj=myImage(os.path.join(self.output_path , obj.name+".jpg"))
         return  imgobj
@@ -89,10 +88,9 @@ class RoboflowLogic:
 
 
     def noisyFilter(self,obj , mean=0, var=0.01):
-
         noised=self.__random_noise(obj.read(), mean=mean, var=var)
         cv2.imwrite(os.path.join(self.output_path , obj.name+".jpg"), noised*255)
-        img = myImage(os.path.join(self.output_path , obj.name+".jpg"))
+        img=myImage(os.path.join(self.output_path , obj.name+".jpg"))
         return  img
 
 
@@ -127,7 +125,6 @@ class RoboflowLogic:
         mainimg_height, mainimg_width, _ = obj.read().shape
         croped=self.__crop(obj.read(), int(x*mainimg_width), int(y*mainimg_height), int(height*mainimg_width), int(width*mainimg_height)) 
         cv2.imwrite(os.path.join(self.output_path , obj.name+".jpg"), croped)
-
         img=myImage(os.path.join(self.output_path , obj.name+".jpg"))
         return  img
             
@@ -142,7 +139,6 @@ class RoboflowLogic:
         training_number = round(training_pr * len(data))
         validation_number = round(validation_pr * len(data))
         test_number = round(test_pr * len(data))
-        print(training_number,validation_number,test_number)
         if round(test_pr * len(data)) == 0 :
             test_number +=1
             validation_number -=1
@@ -244,7 +240,7 @@ class myImage:
   
 
         tree = gfg.ElementTree(root)
-      
+
         with open (os.path.join(dir,rf'{self.name}.xml'), "wb") as files :
             tree.write(files)
 

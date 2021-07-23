@@ -105,7 +105,7 @@ class MainPageWindow(QMainWindow, MainPage):
        
 
 
-
+        #set value
         self.start_slider.setRange(0,90)
         self.end_slider.setRange(90,100)
         self.start_slider.setValue(75)
@@ -425,6 +425,7 @@ class MainPageWindow(QMainWindow, MainPage):
         self.rotate_frame.setHidden(False)
         self.main_image_crop.setHidden(True)
         self.changed_image_crop.setHidden(True)
+        self.CropApplyBTN.setHidden(True) # 7 : 04
         self.Resize_frame.setHidden(True)
         self.Resize_frame_control.setHidden(True)
         self.rotate.setStyleSheet('''#rotate{
@@ -507,6 +508,7 @@ class MainPageWindow(QMainWindow, MainPage):
         self.rotate_frame.setHidden(True)
         self.main_image_crop.setHidden(True)
         self.changed_image_crop.setHidden(True)
+        self.CropApplyBTN.setHidden(True) # 7 : 04
         self.Resize_frame.setHidden(False)
         self.Resize_frame_control.setHidden(False)
         pix = QPixmap(self.myLogicObject.Output[0].path)
@@ -568,6 +570,7 @@ class MainPageWindow(QMainWindow, MainPage):
         self.rotate_frame.setHidden(True)
         self.main_image_crop.setHidden(False)
         self.changed_image_crop.setHidden(False)
+        self.CropApplyBTN.setHidden(False)
         self.Resize_frame.setHidden(True)
         self.Resize_frame_control.setHidden(True)
         pix = QPixmap(self.myLogicObject.Output[0].path)
@@ -613,7 +616,7 @@ class MainPageWindow(QMainWindow, MainPage):
         pix = QPixmap(obj.path)
         pix = pix.scaled(self.changed_image_crop.size())
         self.changed_image_crop.setPixmap(pix)
-        self.changed_image_crop.setPixmap(pix)
+        # self.changed_image_crop.setPixmap(pix)
         self.cropPosition=roi
 
 
@@ -645,7 +648,6 @@ class MainPageWindow(QMainWindow, MainPage):
 
     def GrayApply(self):
         Output_copy=self.myLogicObject.Output.copy()
-
         for img in Output_copy :
             self.myLogicObject.Output.remove(img)
             obj = self.myLogicObject.filterGray(img)
@@ -667,6 +669,7 @@ class MainPageWindow(QMainWindow, MainPage):
         pix1 = pix1.scaled(self.changed_image_blur.size())
         self.changed_image_blur.setPixmap(pix1)
 
+
     def BlurApply(self):
         Output_copy=self.myLogicObject.Output.copy()
         for img in Output_copy :
@@ -677,7 +680,7 @@ class MainPageWindow(QMainWindow, MainPage):
 
     
     def HueApply(self):
-        Output_copy=self.myLogicObject.Output
+        Output_copy=self.myLogicObject.Output.copy()
         for img in Output_copy :
             self.myLogicObject.Output.remove(img)
             obj = self.myLogicObject.hueFilter(img)
@@ -720,7 +723,6 @@ class MainPageWindow(QMainWindow, MainPage):
             self.myLogicObject.Output.remove(img)
             obj = self.myLogicObject.changeBrightness(img,percent)
             self.myLogicObject.Output.append(obj)
-
 
 
 
@@ -828,8 +830,6 @@ class MainPageWindow(QMainWindow, MainPage):
 
     def UPloadData_Drag_Drop(self):
         pass
-        # self.Dragdrop=DragDrop()
-
 
        
 
@@ -874,7 +874,7 @@ class MainPageWindow(QMainWindow, MainPage):
 
     def Labeling(self):
         sender = self.sender()
-        img = self.myLogicObject.Data[sender.id]
+        img = self.myLogicObject.Output[sender.id]
         self.image_view_window = PageLabelingWindow(img)
         self.image_view_window.show()
 
@@ -883,15 +883,10 @@ class MainPageWindow(QMainWindow, MainPage):
         self.myLogicObject.test.clear()
         self.myLogicObject.training.clear()
         self.myLogicObject.validation.clear()
-        print("666",self.Train_Label.text(),self.Test_Label.text(),self.Validation_Label.text())
         training_pr = int(self.Train_Label.text())/100
         test_pr = int(self.Test_Label.text())/100
         validation_pr = int(self.Validation_Label.text())/100
-        print("55",training_pr,validation_pr,test_pr)
         self.myLogicObject.Test_Train_data(training_pr,validation_pr,test_pr,self.myLogicObject.Output)
-        print(self.myLogicObject.test)
-        print(self.myLogicObject.training)
-        print(self.myLogicObject.validation)
         Tk().withdraw()      
         slash = tkinter.filedialog.asksaveasfilename()
 
@@ -1085,7 +1080,7 @@ class MyThread(QtCore.QThread):
         cnt = 0
         while cnt < 100:
             cnt+=1
-            time.sleep(0.001)
+            time.sleep(0.02)
             self.change_value.emit(cnt)
         self.finish.emit(True)
         
