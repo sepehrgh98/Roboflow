@@ -8,29 +8,49 @@ from tkinter import *
 import glob
 import cv2
 import io
+from PyQt5.QtCore import QThread, QObject, pyqtSignal, pyqtSlot
+
 from PIL.ImageQt import ImageQt
 import random
 import pathlib
+import time
 
-
-ProjectsWindow = uic.loadUiType(os.path.join(os.getcwd(), "ProjectsWindow.ui"))[0]
+intro = uic.loadUiType(os.path.join(os.getcwd(), "intro.ui"))[0]
 MainPage = uic.loadUiType(os.path.join(os.getcwd(), "MainPage.ui"))[0]
 imageView = uic.loadUiType(os.path.join(os.getcwd(), "imageView.ui"))[0]
 
 
 
-class MainGUI(QMainWindow, ProjectsWindow):
+class MainGUI(QMainWindow, intro):
     def __init__(self):
         super(MainGUI, self).__init__()
         self.setupUi(self)
-        self.newBTN.clicked.connect(self.new_project)
+        self.logoLabel
         self.main_w = None
-
-
+        self.logoLabel.setScaledContents(True)
+        pixmap =QPixmap(os.path.join(os.getcwd(),"logo_big.jpg"))
+        self.logoLabel.setPixmap(pixmap)
+        self.progressbar.setMaximum(100)
+        self.progressbar.setStyleSheet("QProgressBar {border: 2px solid black;border-radius:8px;padding:1px}"
+                                       "QProgressBar::chunk {background:#EC524B}")
+        self.startProgressBar()
+        
+        
+    @QtCore.pyqtSlot()
     def new_project(self):
         self.main_w = MainPageWindow()
         self.main_w.show()
         self.close()
+
+    def startProgressBar(self):
+        self.thread = MyThread()
+        self.thread.change_value.connect(self.setProgressVal)
+        self.thread.finished.connect(self.new_project)
+
+        self.thread.start()
+
+    def setProgressVal(self, val):
+        self.progressbar.setValue(val)
 
 
 class MainPageWindow(QMainWindow, MainPage):
@@ -38,7 +58,7 @@ class MainPageWindow(QMainWindow, MainPage):
         
         super(MainPageWindow, self).__init__()
         self.setupUi(self)
-
+        self.setFixedSize(1452,750)
         #logic object
         self.myLogicObject = RoboflowLogic("chess", "piece")
 
@@ -104,11 +124,6 @@ class MainPageWindow(QMainWindow, MainPage):
         self.preprocessing_frame.setHidden(True)
         self.Generate_frame.setHidden(True)
 
-        
-        
-
-        
-        
 
         self.upload_frame.setHidden(True)
         self.scrollAreaAddLabel.setHidden(True)
@@ -117,10 +132,7 @@ class MainPageWindow(QMainWindow, MainPage):
         self.Scale_persent.textChanged[str].connect(self.onChanged_Resize)
         self.Scale_persent_brightness.textChanged[str].connect(self.onChanged_brightness)
         self.Scale_persent_noisy_var.textChanged[str].connect(self.onChanged_noise_var)
-       
 
-
-        
 
         self.Test_Train_frame.setHidden(True)
         self.brightness_frame.setHidden(True)
@@ -138,10 +150,12 @@ class MainPageWindow(QMainWindow, MainPage):
         self.im3.setHidden(True)
         self.im4.setHidden(True)
         self.im5.setHidden(True)
-        # self.DeleteBTN.setHidden(True)
-        # self.DeleteBTN.setHidden(True)
-        # self.DeleteBTN.setHidden(True)
-        # self.DeleteBTN.setHidden(True)
+
+        self.logo.setScaledContents(True)
+        pixmap =QPixmap(os.path.join(os.getcwd(),"logo.jpg"))
+        self.logo.setPixmap(pixmap)
+
+  
 
 
         self.filterBTN.clicked.connect(self.filter_button)
@@ -221,13 +235,13 @@ class MainPageWindow(QMainWindow, MainPage):
         self.filter_frame.setHidden(True)
         self.preprocessing_frame.setHidden(True)
         self.upload_data.setStyleSheet('''#upload_data{
-                background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0.338308 rgba(24, 25, 29, 255), stop:1 rgba(35, 37, 43, 255));
-                font: 75 12pt "Nirmala UI";
-                color: green;
-                border: 4px groove rgb(24, 25, 29);
-                border-radius:30px; 
-                border-style:outset;
-                }
+                    background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(154, 211, 188, 255), stop:1 rgba(170, 231, 206, 255));
+                    font: 87 14pt "Segoe UI Black";
+                    color:  #EC524B;
+                    border: 3px groove #9AD3BC;
+                    border-radius:15px; 
+                    border-style:outset;}
+
                 ''')
         
   
@@ -319,7 +333,6 @@ class MainPageWindow(QMainWindow, MainPage):
 
 
 
-
     def TrainTestfunc(self):
         self.upload_frame.setHidden(True)
         self.Test_Train_frame.setHidden(False)
@@ -328,13 +341,12 @@ class MainPageWindow(QMainWindow, MainPage):
         self.preprocessing_frame.setHidden(True)
         self.Generate_frame.setHidden(True)
         self.TrainTestBTN.setStyleSheet('''#TrainTestBTN{
-                background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0.338308 rgba(24, 25, 29, 255), stop:1 rgba(35, 37, 43, 255));
-                font: 75 12pt "Nirmala UI";
-                color: green;
-                border: 4px groove rgb(24, 25, 29);
-                border-radius:30px; 
-                border-style:outset;
-                }
+                background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(154, 211, 188, 255), stop:1 rgba(170, 231, 206, 255));
+                font: 87 14pt "Segoe UI Black";
+                color:  #EC524B;
+                border: 3px groove #9AD3BC;
+                border-radius:15px; 
+                border-style:outset;}
                 ''')
 
 
@@ -360,15 +372,13 @@ class MainPageWindow(QMainWindow, MainPage):
         self.preprocessing_frame.setHidden(True)
         self.Generate_frame.setHidden(True)
         self.addLabelBTN.setStyleSheet('''#addLabelBTN{
-                background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0.338308 rgba(24, 25, 29, 255), stop:1 rgba(35, 37, 43, 255));
-                font: 75 12pt "Nirmala UI";
-                color: green;
-                border: 4px groove rgb(24, 25, 29);
-                border-radius:30px; 
-                border-style:outset;
-                }
+                background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(154, 211, 188, 255), stop:1 rgba(170, 231, 206, 255));
+                font: 10 14pt "Segoe UI Black";
+                color:  #EC524B;
+                border: 3px groove #9AD3BC;
+                border-radius:15px; 
+                border-style:outset;}
                 ''')
-        
         mywidget = QWidget()
         addLabelLayout = QGridLayout()
         for i in range(len(self.myLogicObject.Data)):
@@ -401,13 +411,12 @@ class MainPageWindow(QMainWindow, MainPage):
         self.Resize_frame_control.setHidden(True)
         self.Generate_frame.setHidden(True)
         self.preprocessingBTN.setStyleSheet('''#preprocessingBTN{
-                    background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0.338308 rgba(24, 25, 29, 255), stop:1 rgba(35, 37, 43, 255));
-                    font: 75 12pt "Nirmala UI";
-                    color: green;
-                    border: 4px groove rgb(24, 25, 29);
-                    border-radius:30px; 
-                    border-style:outset;
-                    }
+                    background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(154, 211, 188, 255), stop:1 rgba(170, 231, 206, 255));
+                    font: 87 14pt "Segoe UI Black";
+                    color:  #EC524B;
+                    border: 3px groove #9AD3BC;
+                    border-radius:15px; 
+                    border-style:outset;}
                 ''')
 
 
@@ -419,29 +428,29 @@ class MainPageWindow(QMainWindow, MainPage):
         self.Resize_frame.setHidden(True)
         self.Resize_frame_control.setHidden(True)
         self.rotate.setStyleSheet('''#rotate{
-                    background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0.338308 rgba(24, 25, 29, 255), stop:1 rgba(35, 37, 43, 255));
-                    font: 75 12pt "Nirmala UI";
-                    color: green;
-                    border: 4px groove rgb(24, 25, 29);
-                    border-radius:30px; 
-                    border-style:outset;
+              background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(154, 211, 188, 255), stop:1 rgba(170, 231, 206, 255));
+                font: 87 14pt "Segoe UI Black";
+                color:  qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(217, 74, 69, 255), stop:1 rgba(236, 82, 75, 255));
+                border: 3px groove #9AD3BC;
+                border-radius:15px; 
+                border-style:outset;
                     }
                 ''')
         self.resizeBTN.setStyleSheet('''#resizeBTN{
-                    background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0.338308 rgba(24, 25, 29, 255), stop:1 rgba(35, 37, 43, 255));
-                    font: 75 12pt "Nirmala UI";
-                    color: rgb(112, 119, 129);
-                    border: 4px groove rgb(24, 25, 29);
-                    border-radius:30px; 
-                    border-style:outset;
+                background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(154, 211, 188, 255), stop:1 rgba(170, 231, 206, 255));
+                font: 87 14pt "Segoe UI Black";
+                color:  #222831;
+                border: 3px groove #9AD3BC;
+                border-radius:15px; 
+                border-style:outset;
                     }
                 ''')
         self.crop.setStyleSheet('''#crop{
-                    background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0.338308 rgba(24, 25, 29, 255), stop:1 rgba(35, 37, 43, 255));
-                    font: 75 12pt "Nirmala UI";
-                    color: rgb(112, 119, 129);
-                    border: 4px groove rgb(24, 25, 29);
-                    border-radius:30px; 
+                    background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(154, 211, 188, 255), stop:1 rgba(170, 231, 206, 255));
+                    font: 87 14pt "Segoe UI Black";
+                    color:  #222831;
+                    border: 3px groove #9AD3BC;
+                    border-radius:15px; 
                     border-style:outset;
                     }
                 ''')
@@ -506,29 +515,29 @@ class MainPageWindow(QMainWindow, MainPage):
         self.changedImageResize.setPixmap(pix)
         self.Scale_persent.setText("100")
         self.rotate.setStyleSheet('''#rotate{
-                    background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0.338308 rgba(24, 25, 29, 255), stop:1 rgba(35, 37, 43, 255));
-                    font: 75 12pt "Nirmala UI";
-                    color: rgb(112, 119, 129);
-                    border: 4px groove rgb(24, 25, 29);
-                    border-radius:30px; 
-                    border-style:outset;
+              background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(154, 211, 188, 255), stop:1 rgba(170, 231, 206, 255));
+                font: 87 14pt "Segoe UI Black";
+                color:  #222831;
+                border: 3px groove #9AD3BC;
+                border-radius:15px; 
+                border-style:outset;
                     }
                 ''')
         self.resizeBTN.setStyleSheet('''#resizeBTN{
-                    background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0.338308 rgba(24, 25, 29, 255), stop:1 rgba(35, 37, 43, 255));
-                    font: 75 12pt "Nirmala UI";
-                    color: green;
-                    border: 4px groove rgb(24, 25, 29);
-                    border-radius:30px; 
-                    border-style:outset;
+                background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(154, 211, 188, 255), stop:1 rgba(170, 231, 206, 255));
+                font: 87 14pt "Segoe UI Black";
+                color:  qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(217, 74, 69, 255), stop:1 rgba(236, 82, 75, 255));;
+                border: 3px groove #9AD3BC;
+                border-radius:15px; 
+                border-style:outset;
                     }
                 ''')
         self.crop.setStyleSheet('''#crop{
-                    background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0.338308 rgba(24, 25, 29, 255), stop:1 rgba(35, 37, 43, 255));
-                    font: 75 12pt "Nirmala UI";
-                    color: rgb(112, 119, 129);
-                    border: 4px groove rgb(24, 25, 29);
-                    border-radius:30px; 
+                    background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(154, 211, 188, 255), stop:1 rgba(170, 231, 206, 255));
+                    font: 87 14pt "Segoe UI Black";
+                    color:  #222831;
+                    border: 3px groove #9AD3BC;
+                    border-radius:15px; 
                     border-style:outset;
                     }
                 ''')
@@ -566,29 +575,29 @@ class MainPageWindow(QMainWindow, MainPage):
         self.main_image_crop.setPixmap(pix)
         self.changed_image_crop.setPixmap(pix)
         self.rotate.setStyleSheet('''#rotate{
-                    background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0.338308 rgba(24, 25, 29, 255), stop:1 rgba(35, 37, 43, 255));
-                    font: 75 12pt "Nirmala UI";
-                    color: rgb(112, 119, 129);
-                    border: 4px groove rgb(24, 25, 29);
-                    border-radius:30px; 
-                    border-style:outset;
+              background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(154, 211, 188, 255), stop:1 rgba(170, 231, 206, 255));
+                font: 87 14pt "Segoe UI Black";
+                color:  #222831;
+                border: 3px groove #9AD3BC;
+                border-radius:15px; 
+                border-style:outset;
                     }
                 ''')
         self.resizeBTN.setStyleSheet('''#resizeBTN{
-                    background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0.338308 rgba(24, 25, 29, 255), stop:1 rgba(35, 37, 43, 255));
-                    font: 75 12pt "Nirmala UI";
-                    color: rgb(112, 119, 129);
-                    border: 4px groove rgb(24, 25, 29);
-                    border-radius:30px; 
-                    border-style:outset;
+                background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(154, 211, 188, 255), stop:1 rgba(170, 231, 206, 255));
+                font: 87 14pt "Segoe UI Black";
+                color:  #222831;
+                border: 3px groove #9AD3BC;
+                border-radius:15px; 
+                border-style:outset;
                     }
                 ''')
         self.crop.setStyleSheet('''#crop{
-                    background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0.338308 rgba(24, 25, 29, 255), stop:1 rgba(35, 37, 43, 255));
-                    font: 75 12pt "Nirmala UI";
-                    color: green;
-                    border: 4px groove rgb(24, 25, 29);
-                    border-radius:30px; 
+                    background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(154, 211, 188, 255), stop:1 rgba(170, 231, 206, 255));
+                    font: 87 14pt "Segoe UI Black";
+                    color:  qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(217, 74, 69, 255), stop:1 rgba(236, 82, 75, 255));
+                    border: 3px groove #9AD3BC;
+                    border-radius:15px; 
                     border-style:outset;
                     }
                 ''')
@@ -638,7 +647,6 @@ class MainPageWindow(QMainWindow, MainPage):
         Output_copy=self.myLogicObject.Output.copy()
 
         for img in Output_copy :
-            cv2.imshow("k",img.read())
             self.myLogicObject.Output.remove(img)
             obj = self.myLogicObject.filterGray(img)
             self.myLogicObject.Output.append(obj)
@@ -775,6 +783,15 @@ class MainPageWindow(QMainWindow, MainPage):
         self.preprocessing_frame.setHidden(False)
         self.Resize_frame.setHidden(True)
         self.Resize_frame_control.setHidden(True)
+        self.GenerateBTN.setStyleSheet('''#GenerateBTN{
+                background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(154, 211, 188, 255), stop:1 rgba(170, 231, 206, 255));
+                font: 87 14pt "Segoe UI Black";
+                color:  #EC524B;
+                border: 3px groove #9AD3BC;
+                border-radius:15px; 
+                border-style:outset;}
+
+                ''')
         if len(self.myLogicObject.Output) > 5:
             out = random.sample(self.myLogicObject.Output, 5)
         else:
@@ -797,12 +814,15 @@ class MainPageWindow(QMainWindow, MainPage):
 
     
     def filter_button(self):
-        
-        # self.upload_frame.setHidden(True)
-        # self.scrollAreaAddLabel.setHidden(True)
-        # self.preprocessing_frame.setHidden(True)
-        # self.Test_Train_frame.setHidden(True)
         self.filter_frame.setHidden(False)
+        self.filterBTN.setStyleSheet(''' #filterBTN{
+                    background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(154, 211, 188, 255), stop:1 rgba(170, 231, 206, 255));
+                    font: 87 14pt "Segoe UI Black";
+                    color:  #EC524B;
+                    border: 3px groove #9AD3BC;
+                    border-radius:15px; 
+                    border-style:outset;}
+        ''')
         
  
 
@@ -967,9 +987,15 @@ class PageLabelingWindow(QMainWindow, imageView):
             self.selectedRect.LogicalObj = d
             self.img.add_detection_obj(self.selectedRect.LogicalObj)
             self.selectedRect.showLabel = QLabel(self.selectedRect.LogicalObj.label,self)
-            # self.selectedRect.delBTN.setEnabled(False)
+            self.selectedRect.showLabel.setStyleSheet('''QLabel{
+                                background-color: #F5B461;
+                                font: 87 14pt "Segoe UI Black";
+                                color:  #222831;
+                                border: 0px groove #9AD3BC;
+                                border-radius:15px; 
+                                border-style:outset;}
+                                ''')
             self.LabelLayout.addWidget(self.selectedRect.showLabel)
-            # self.selectedRect.delBTN.clicked.connect(lambda:self.removeLabel(self.selectedRect))
         else:
             self.img.detection_obj.remove(self.selectedRect.LogicalObj)
             self.selectedRect.LogicalObj =  DetectionObject((self.selectedRect.start.x() + (self.selectedRect.end.x() - self.selectedRect.start.x())/2,self.selectedRect.start.y() + (self.selectedRect.end.y() -self.selectedRect.start.y())/2), LabelText)
@@ -1050,3 +1076,18 @@ class CustomQLabel(QtWidgets.QLabel):
     def mousePressEvent(self, event):
         self.clicked.emit()
         QtWidgets.QLabel.mousePressEvent(self, event)
+
+
+class MyThread(QtCore.QThread):
+    change_value = QtCore.pyqtSignal(int)
+    finish = QtCore.pyqtSignal(bool)
+    def run(self):
+        cnt = 0
+        while cnt < 100:
+            cnt+=1
+            time.sleep(0.001)
+            self.change_value.emit(cnt)
+        self.finish.emit(True)
+        
+
+    

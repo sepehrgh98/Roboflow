@@ -6,25 +6,37 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1116</width>
-    <height>672</height>
+    <width>1106</width>
+    <height>645</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
   <property name="styleSheet">
-   <string notr="true">background-color: rgb(24, 25, 29);</string>
+   <string notr="true">#centralwidget{
+background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(217, 74, 69, 255), stop:1 rgba(236, 82, 75, 255));
+}
+</string>
   </property>
   <widget class="QWidget" name="centralwidget">
    <widget class="QGraphicsView" name="ImageView">
     <property name="geometry">
      <rect>
-      <x>210</x>
+      <x>220</x>
       <y>10</y>
       <width>881</width>
       <height>601</height>
      </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">#ImageView{
+background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(243, 234, 194, 255), stop:1 rgba(255, 245, 204, 255));
+border-style:inset;
+border-radius:15px; 
+border: 5px outset  #F3EAC2;
+}
+</string>
     </property>
    </widget>
    <widget class="QFrame" name="LabelsFrame">
@@ -32,15 +44,18 @@
      <rect>
       <x>10</x>
       <y>10</y>
-      <width>191</width>
+      <width>201</width>
       <height>601</height>
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(40, 46, 51, 255), stop:1 rgba(49, 56, 63, 255));
-border-radius:30px; 
-border: 4px groove  rgb(40, 46, 51);
-border-style:outset;</string>
+     <string notr="true">#LabelsFrame{
+background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(245, 180, 97, 255), stop:1 rgba(255, 186, 101, 255));
+border-radius:10px; 
+border: 5px outset  #F5B461;
+color:  #222831;
+}
+</string>
     </property>
     <property name="frameShape">
      <enum>QFrame::StyledPanel</enum>
@@ -51,37 +66,43 @@ border-style:outset;</string>
     <widget class="QLineEdit" name="lineEntry">
      <property name="geometry">
       <rect>
-       <x>20</x>
-       <y>30</y>
+       <x>40</x>
+       <y>20</y>
        <width>131</width>
-       <height>31</height>
+       <height>41</height>
       </rect>
      </property>
      <property name="styleSheet">
-      <string notr="true">background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0.338308 rgba(24, 25, 29, 255), stop:1 rgba(35, 37, 43, 255));
-font: 75 12pt &quot;Nirmala UI&quot;;
-color: rgb(112, 119, 129);
-border: 4px groove rgb(24, 25, 29);
-border-style:outset;
+      <string notr="true">#lineEntry{
+background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(154, 211, 188, 255), stop:1 rgba(170, 231, 206, 255));
+font: 87 14pt &quot;Segoe UI Black&quot;;
+color:  #222831;
+border: 3px groove #9AD3BC;
+border-radius:10px; 
+border-style:outset;}
 </string>
+     </property>
+     <property name="text">
+      <string/>
      </property>
     </widget>
     <widget class="QPushButton" name="setLabelBTN">
      <property name="geometry">
       <rect>
-       <x>20</x>
+       <x>40</x>
        <y>70</y>
        <width>131</width>
-       <height>31</height>
+       <height>41</height>
       </rect>
      </property>
      <property name="styleSheet">
-      <string notr="true">background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0.338308 rgba(24, 25, 29, 255), stop:1 rgba(35, 37, 43, 255));
-font: 75 12pt &quot;Nirmala UI&quot;;
-color: rgb(112, 119, 129);
-border: 4px groove rgb(24, 25, 29);
-border-radius:15px; 
-border-style:outset;
+      <string notr="true">#setLabelBTN{
+background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(154, 211, 188, 255), stop:1 rgba(170, 231, 206, 255));
+font: 87 10pt &quot;Segoe UI Black&quot;;
+color:  #222831;
+border: 3px groove #9AD3BC;
+border-radius:10px; 
+border-style:outset;}
 </string>
      </property>
      <property name="text">
@@ -91,9 +112,9 @@ border-style:outset;
     <widget class="QWidget" name="verticalLayoutWidget">
      <property name="geometry">
       <rect>
-       <x>20</x>
+       <x>30</x>
        <y>120</y>
-       <width>161</width>
+       <width>151</width>
        <height>331</height>
       </rect>
      </property>
@@ -106,19 +127,20 @@ border-style:outset;
     <widget class="QPushButton" name="FinishedBTN">
      <property name="geometry">
       <rect>
-       <x>10</x>
+       <x>20</x>
        <y>540</y>
        <width>161</width>
        <height>41</height>
       </rect>
      </property>
      <property name="styleSheet">
-      <string notr="true">background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0.338308 rgba(24, 25, 29, 255), stop:1 rgba(35, 37, 43, 255));
-font: 75 12pt &quot;Nirmala UI&quot;;
-color: rgb(112, 119, 129);
-border: 4px groove rgb(24, 25, 29);
-border-radius:15px; 
-border-style:outset;</string>
+      <string notr="true">#FinishedBTN{
+background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(154, 211, 188, 255), stop:1 rgba(170, 231, 206, 255));
+font: 87 10pt &quot;Segoe UI Black&quot;;
+color:  #222831;
+border: 3px groove #9AD3BC;
+border-radius:10px; 
+border-style:outset;}</string>
      </property>
      <property name="text">
       <string>Finished!</string>
@@ -127,19 +149,20 @@ border-style:outset;</string>
     <widget class="QPushButton" name="DeleteBTN">
      <property name="geometry">
       <rect>
-       <x>10</x>
-       <y>470</y>
+       <x>20</x>
+       <y>490</y>
        <width>161</width>
        <height>41</height>
       </rect>
      </property>
      <property name="styleSheet">
-      <string notr="true">background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0.338308 rgba(24, 25, 29, 255), stop:1 rgba(35, 37, 43, 255));
-font: 75 12pt &quot;Nirmala UI&quot;;
-color: rgb(112, 119, 129);
-border: 4px groove rgb(24, 25, 29);
-border-radius:15px; 
-border-style:outset;</string>
+      <string notr="true">#DeleteBTN{
+background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(154, 211, 188, 255), stop:1 rgba(170, 231, 206, 255));
+font: 87 10pt &quot;Segoe UI Black&quot;;
+color:  #222831;
+border: 3px groove #9AD3BC;
+border-radius:10px; 
+border-style:outset;}</string>
      </property>
      <property name="text">
       <string>Delete!</string>
@@ -152,7 +175,7 @@ border-style:outset;</string>
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1116</width>
+     <width>1106</width>
      <height>22</height>
     </rect>
    </property>
