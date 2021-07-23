@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1106</width>
+    <height>645</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>MainWindow</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">#centralwidget{
+background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(217, 74, 69, 255), stop:1 rgba(236, 82, 75, 255));
+}
+</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <widget class="QGraphicsView" name="ImageView">
+    <property name="geometry">
+     <rect>
+      <x>220</x>
+      <y>10</y>
+      <width>881</width>
+      <height>601</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">#ImageView{
+background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(243, 234, 194, 255), stop:1 rgba(255, 245, 204, 255));
+border-style:inset;
+border-radius:15px; 
+border: 5px outset  #F3EAC2;
+}
+</string>
+    </property>
+   </widget>
+   <widget class="QFrame" name="LabelsFrame">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>10</y>
+      <width>201</width>
+      <height>601</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">#LabelsFrame{
+background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(245, 180, 97, 255), stop:1 rgba(255, 186, 101, 255));
+border-radius:10px; 
+border: 5px outset  #F5B461;
+color:  #222831;
+}
+</string>
+    </property>
+    <property name="frameShape">
+     <enum>QFrame::StyledPanel</enum>
+    </property>
+    <property name="frameShadow">
+     <enum>QFrame::Raised</enum>
+    </property>
+    <widget class="QLineEdit" name="lineEntry">
+     <property name="geometry">
+      <rect>
+       <x>40</x>
+       <y>20</y>
+       <width>131</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">#lineEntry{
+background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(154, 211, 188, 255), stop:1 rgba(170, 231, 206, 255));
+font: 87 14pt &quot;Segoe UI Black&quot;;
+color:  #222831;
+border: 3px groove #9AD3BC;
+border-radius:10px; 
+border-style:outset;}
+</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="setLabelBTN">
+     <property name="geometry">
+      <rect>
+       <x>40</x>
+       <y>70</y>
+       <width>131</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">#setLabelBTN{
+background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(154, 211, 188, 255), stop:1 rgba(170, 231, 206, 255));
+font: 87 10pt &quot;Segoe UI Black&quot;;
+color:  #222831;
+border: 3px groove #9AD3BC;
+border-radius:10px; 
+border-style:outset;}
+</string>
+     </property>
+     <property name="text">
+      <string>ADD!</string>
+     </property>
+    </widget>
+    <widget class="QWidget" name="verticalLayoutWidget">
+     <property name="geometry">
+      <rect>
+       <x>30</x>
+       <y>120</y>
+       <width>151</width>
+       <height>331</height>
+      </rect>
+     </property>
+     <layout class="QVBoxLayout" name="LabelLayout">
+      <property name="spacing">
+       <number>1</number>
+      </property>
+     </layout>
+    </widget>
+    <widget class="QPushButton" name="FinishedBTN">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>540</y>
+       <width>161</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">#FinishedBTN{
+background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(154, 211, 188, 255), stop:1 rgba(170, 231, 206, 255));
+font: 87 10pt &quot;Segoe UI Black&quot;;
+color:  #222831;
+border: 3px groove #9AD3BC;
+border-radius:10px; 
+border-style:outset;}</string>
+     </property>
+     <property name="text">
+      <string>Finished!</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="DeleteBTN">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>490</y>
+       <width>161</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">#DeleteBTN{
+background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(154, 211, 188, 255), stop:1 rgba(170, 231, 206, 255));
+font: 87 10pt &quot;Segoe UI Black&quot;;
+color:  #222831;
+border: 3px groove #9AD3BC;
+border-radius:10px; 
+border-style:outset;}</string>
+     </property>
+     <property name="text">
+      <string>Delete!</string>
+     </property>
+    </widget>
+   </widget>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>1106</width>
+     <height>22</height>
+    </rect>
+   </property>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
